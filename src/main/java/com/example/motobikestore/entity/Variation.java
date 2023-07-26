@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Table(name = "variation")
 public class Variation implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long variationID;

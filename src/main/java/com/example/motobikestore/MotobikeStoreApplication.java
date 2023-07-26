@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 @EnableBlazeRepositories
 @EnableEntityViews("com.example.motobikestore.view")
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
+@SpringBootApplication
 public class MotobikeStoreApplication {
 
     public static void main(String[] args) {

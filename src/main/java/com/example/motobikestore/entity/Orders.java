@@ -45,4 +45,17 @@ public class Orders implements Serializable {
     @OneToMany(mappedBy="orders",  cascade=CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @Transient
+    public BigDecimal getTotalOrderPrice() {
+        BigDecimal bigDecimalValue = new BigDecimal("0");
+        List<OrderItem> orderItems = getOrderItems();
+        for (OrderItem ot : orderItems) {
+            bigDecimalValue.add(ot.getTotalPrice());
+        }
+        return bigDecimalValue;
+    }
+    @Transient
+    public int getNumberOfProducts() {
+        return this.orderItems.size();
+    }
 }

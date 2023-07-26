@@ -23,7 +23,7 @@ public class Tag implements Serializable {
     @Column
     private Boolean isActive;
 
-    @ManyToMany(mappedBy = "tag", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "tags", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Collection<Product> producttag = new ArrayList<>();
 }

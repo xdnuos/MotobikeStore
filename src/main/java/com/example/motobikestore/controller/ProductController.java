@@ -16,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import static com.example.motobikestore.constants.PathConstants.*;
 
 @RestController
@@ -34,12 +37,20 @@ public class ProductController {
         return productViewRepository.findAllToPage(pageable);
     }
 
-    @PostMapping(ADD)
-    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO, BindingResult bindingResult){
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        }
-        Product product = commonMapper.convertToEntity(productDTO, Product.class);
-        return ResponseEntity.ok(productService.addProduct(product));
-    }
+//    @PostMapping(ADD)
+//    public ResponseEntity<String> addProduct(@RequestParam("sku") String sku,
+//                                             @RequestParam("name") String name,
+//                                             @RequestParam("price") BigDecimal price,
+//                                             @RequestParam("shortDescription") String shortDescription,
+//                                             @RequestParam("fullDescription") String fullDescription,
+//                                             @RequestParam("arrival") String arrival,
+//                                             @RequestParam("manufacturer") String manufacturer,
+//                                             @RequestParam("categories") List<String> categories,
+//                                             BindingResult bindingResult){
+//        if (bindingResult.hasErrors()) {
+//            throw new InputFieldException(bindingResult);
+//        }
+//        Product product = commonMapper.convertToEntity(productDTO, Product.class);
+//        return ResponseEntity.ok(productService.addProduct(product));
+//    }
 }

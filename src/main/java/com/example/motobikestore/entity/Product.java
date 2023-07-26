@@ -3,6 +3,7 @@ package com.example.motobikestore.entity;
 import com.example.motobikestore.enums.Arrival;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.Order;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -66,14 +67,21 @@ public class Product implements Serializable {
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "categoryID"))
     @JsonBackReference
-    private List<Category> category = new ArrayList<>();
+    private List<Category> categorys = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "product_tag",
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "tagID"))
     @JsonBackReference
-    private List<Tag> tag = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "product_stock",
+            joinColumns = @JoinColumn(name = "productID"),
+            inverseJoinColumns = @JoinColumn(name = "stockID"))
+    @JsonBackReference
+    private List<Stock> stocks = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     private List<OrderItem> oderItem = new ArrayList<>();
@@ -83,5 +91,4 @@ public class Product implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     private List<Variation> variations = new ArrayList<>();
-
 }

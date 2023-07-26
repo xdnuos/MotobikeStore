@@ -20,8 +20,6 @@ public class BlazePersistenceConfiguration {
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
 
-
-
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     @Lazy(false)

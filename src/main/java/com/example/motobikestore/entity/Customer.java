@@ -21,9 +21,6 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID customerID;
 
-    @NotBlank(message="Full name cannot be blank")
-//    @Pattern(regexp="^[\\p{L} \\.'\\-]+$", message="Full name must contain only letters and spaces")
-    private String fullname;
 
     @Pattern(regexp="\\d{9}|\\d{10}", message="Phone number must be 9 or 10 digits")
     @Column(nullable = false, length = 15,unique=true)
@@ -40,8 +37,8 @@ public class Customer implements Serializable {
     private List<Orders> orders;
 
     @ManyToOne
-    @JoinColumn(name = "accountID")
-    private Account account;
+    @JoinColumn(name = "userID")
+    private User user;
 
 
 }

@@ -26,7 +26,7 @@ public class Category implements Serializable {
     @Column
     private boolean isActive;
 
-    @ManyToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "categorys",fetch = FetchType.LAZY)
     @JsonManagedReference
     private Collection<Product> productcate = new ArrayList<>();
 }

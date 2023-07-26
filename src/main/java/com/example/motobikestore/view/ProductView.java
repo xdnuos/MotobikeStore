@@ -1,7 +1,9 @@
 package com.example.motobikestore.view;
 
 import com.blazebit.persistence.view.EntityView;
+import com.blazebit.persistence.view.FetchStrategy;
 import com.blazebit.persistence.view.IdMapping;
+import com.blazebit.persistence.view.Mapping;
 import com.example.motobikestore.entity.*;
 import com.example.motobikestore.enums.Arrival;
 
@@ -19,6 +21,8 @@ public interface ProductView {
 
     BigDecimal getPrice();
 
+    String getShortDescription();
+
     String getFullDescription();
 
     Arrival getArrival();
@@ -29,12 +33,12 @@ public interface ProductView {
 
     ManufacturerView getManufacturer();
 
-    List<CategoryView> getCategory();
+    List<CategoryView> getCategorys();
 
-    List<TagView> getTag();
+    List<TagView> getTags();
 
     List<ImagesView> getImages();
-
+    @Mapping(fetch = FetchStrategy.MULTISET)
     List<VariationView> getVariations();
 
     @EntityView(Manufacturer.class)
@@ -62,7 +66,7 @@ public interface ProductView {
         String getName();
 
         ImagesView getImage();
-
+        @Mapping(fetch = FetchStrategy.MULTISET)
         List<SizeView> getSizes();
 
         @EntityView(Images.class)

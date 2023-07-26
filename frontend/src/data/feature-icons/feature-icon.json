@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "image": "/assets/img/icon-img/support-1.png",
+    "title": "Miễn phí giao hàng",
+    "subtitle": "Miễn phí vận chuyển trên tất cả các đơn hàng"
+  },
+  {
+    "id": 2,
+    "image": "/assets/img/icon-img/support-2.png",
+    "title": "Hỗ trợ 24/7",
+    "subtitle": "Đội ngũ bán hàng hỗ trợ tận tình 24/7"
+  },
+  {
+    "id": 3,
+    "image": "/assets/img/icon-img/support-3.png",
+    "title": "Dễ dàng hoàn tiền",
+    "subtitle": "Dễ dàng hoàn tiền với các đơn hàng bị lỗi"
+  },
+  {
+    "id": 4,
+    "image": "/assets/img/icon-img/support-4.png",
+    "title": "Ưu đãi hấp dẫn",
+    "subtitle": "Nhiều ưu đãi hấp dẫn đối với khách hàng thân thiết"
+  }
+]

@@ -41,8 +41,10 @@ public class CategoryController {
     }
 
 //    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PostMapping(value = ADD)
     @PostMapping(value = ADD)
-    public ResponseEntity<String> addCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult bindingResult){
+    public ResponseEntity<String>
+    addCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }

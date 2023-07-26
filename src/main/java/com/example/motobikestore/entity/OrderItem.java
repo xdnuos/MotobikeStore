@@ -20,6 +20,11 @@ public class OrderItem implements Serializable {
     @JoinColumn(name="productID")
     private Product product;
 
+    @Transient
+    public BigDecimal getTotalPrice() {
+        return this.product.getPrice().multiply(BigDecimal.valueOf(getQuantity()));
+    }
+
     private int quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)

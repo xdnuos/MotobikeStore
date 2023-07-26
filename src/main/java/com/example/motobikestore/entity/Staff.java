@@ -21,11 +21,6 @@ public class Staff implements Serializable {
     @Id
     private UUID staffID;
 
-    @NotBlank(message="Full name cannot be blank")
-    @Pattern(regexp="^[\\p{L} \\.'\\-]+$", message="Full name must contain only letters and spaces")
-    @Column(name = "fullname", length = 225)
-    private String fullname;
-
     @NotNull(message="Gender cannot be null")
     private boolean sex;
 
@@ -49,8 +44,8 @@ public class Staff implements Serializable {
     @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
-    @JoinColumn(name = "accountID")
-    private Account account;
+    @JoinColumn(name = "userID")
+    private User user;
 
     //	@Column(name = "IDManager")
     @ManyToOne

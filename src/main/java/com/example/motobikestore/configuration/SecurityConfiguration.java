@@ -1,9 +1,8 @@
 package com.example.motobikestore.configuration;
 
-import com.example.motobikestore.security.JwtConfigurer;
+import com.example.motobikestore.security.JwtAuthenticationFilter;
 import com.example.motobikestore.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
+//    private final JwtFilter jwtFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtFilter jwtFilter;
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -36,14 +37,34 @@ public class SecurityConfiguration {
                             "/api/v1/order/**",
                             "/api/v1/review/**",
                             "/websocket", "/websocket/**",
+                            "/api/v1/products/get/**",
                             "/img/**",
-                            "/static/**").permitAll()
-                    .requestMatchers("/auth/**", "/oauth2/**", "/**/*swagger*/**", "/v2/api-docs").permitAll()
+                            "/static/**",
+                            "/auth/**",
+                            "/oauth2/**",
+                            "/**/*swagger*/**",
+                            "/v2/api-docs").permitAll()
                     .anyRequest().authenticated();
                 });
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+//    @Bean
+//    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception
+//    { http
+//            .csrf(csrf-> csrf.disable())
+////            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+////            .and()
+//            .authorizeHttpRequests((authorizeHttpRequests) -> {
+//                authorizeHttpRequests
+//                        .requestMatchers("/user/**").permitAll()
+//                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+//                        .requestMatchers("/superadmin/**").hasAuthority("SUPERADMIN");
+//            });
+//        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return  http.build();
+//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception

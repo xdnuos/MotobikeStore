@@ -1,6 +1,6 @@
 package com.example.motobikestore.security;
 
-import com.example.motobikestore.entity.User;
+import com.example.motobikestore.entity.Users;
 import com.example.motobikestore.repository.jpa.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,11 +18,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
+        Users users = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
 //        if (account.getActivationCode() != null) {
 //            throw new LockedException("Email not activated");
 //        }
-        return UserPrincipal.create(user);
+        return UserPrincipal.create(users);
     }
 }

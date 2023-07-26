@@ -2,7 +2,6 @@ package com.example.motobikestore.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -45,9 +44,7 @@ public class Staff implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "userID")
-    private User user;
-
-    //	@Column(name = "IDManager")
+    private Users users;
     @ManyToOne
     private Staff manager;
 }

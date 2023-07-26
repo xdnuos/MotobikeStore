@@ -15,7 +15,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Table
-public class User implements Serializable {
+public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID userID;
@@ -27,10 +27,13 @@ public class User implements Serializable {
     @Column
     private String password;
 
-    @NotBlank(message="Full name cannot be blank")
-    @Pattern(regexp="^[\\p{L} \\.'\\-]+$", message="Full name must contain only letters and spaces")
-    @Column(name = "fullname", length = 225)
-    private String fullname;
+    @NotBlank(message="First name cannot be blank")
+    @Column(name = "firstName", length = 50)
+    private String firstName;
+
+    @NotBlank(message="Last name cannot be blank")
+    @Column(name = "lastName", length = 50)
+    private String lastName;
     @Column
     private boolean active;
 
@@ -43,4 +46,9 @@ public class User implements Serializable {
 
     @Column(name = "password_reset_code")
     private String passwordResetCode;
+
+    @Transient
+    public String getFullName(){
+        return this.firstName + " " + this.lastName;
+    }
 }

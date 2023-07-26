@@ -24,7 +24,7 @@ const MyAccount = ({ strings }) => {
               <div className="ml-auto mr-auto col-lg-9">
                 <div className="myaccount-wrapper">
                   <Accordion defaultActiveKey="0">
-                    <Card className="single-my-user mb-20">
+                    <Card className="single-my-users mb-20">
                       <Card.Header className="panel-heading">
                         <Accordion.Toggle variant="link" eventKey="0">
                           <h3 className="panel-title">
@@ -35,7 +35,7 @@ const MyAccount = ({ strings }) => {
                       <Accordion.Collapse eventKey="0">
                         <Card.Body>
                           <div className="myaccount-info-wrapper">
-                            <div className="user-info-wrapper">
+                            <div className="users-info-wrapper">
                               <h4>{strings["my_info"]}</h4>
                             </div>
                             <div className="row">
@@ -73,7 +73,7 @@ const MyAccount = ({ strings }) => {
                         </Card.Body>
                       </Accordion.Collapse>
                     </Card>
-                    <Card className="single-my-user mb-20">
+                    <Card className="single-my-users mb-20">
                       <Card.Header className="panel-heading">
                         <Accordion.Toggle variant="link" eventKey="1">
                           <h3 className="panel-title">
@@ -84,7 +84,7 @@ const MyAccount = ({ strings }) => {
                       <Accordion.Collapse eventKey="1">
                         <Card.Body>
                           <div className="myaccount-info-wrapper">
-                            <div className="user-info-wrapper">
+                            <div className="users-info-wrapper">
                               <h4>{strings["change_pass"]}</h4>
                             </div>
                             <div className="row">
@@ -110,7 +110,7 @@ const MyAccount = ({ strings }) => {
                         </Card.Body>
                       </Accordion.Collapse>
                     </Card>
-                    <Card className="single-my-user mb-20">
+                    <Card className="single-my-users mb-20">
                       <Card.Header className="panel-heading">
                         <Accordion.Toggle variant="link" eventKey="2">
                           <h3 className="panel-title">
@@ -122,7 +122,7 @@ const MyAccount = ({ strings }) => {
                         {/* fix this */}
                         <Card.Body>
                           <div className="myaccount-info-wrapper">
-                            <div className="user-info-wrapper">
+                            <div className="users-info-wrapper">
                               <h4>{strings["my_address"]}</h4>
                             </div>
                             <div className="entries-wrapper">

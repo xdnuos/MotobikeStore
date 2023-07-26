@@ -43,12 +43,12 @@ const LoginRegister = ({ strings }) => {
                             <form>
                               <input
                                 type="text"
-                                name="user-name"
+                                name="users-name"
                                 placeholder={strings["user_name"]}
                               />
                               <input
                                 type="password"
-                                name="user-password"
+                                name="users-password"
                                 placeholder={strings["password"]}
                               />
                               <div className="button-box">
@@ -75,16 +75,16 @@ const LoginRegister = ({ strings }) => {
                             <form>
                               <input
                                 type="text"
-                                name="user-name"
+                                name="users-name"
                                 placeholder={strings["user_name"]}
                               />
                               <input
                                 type="password"
-                                name="user-password"
+                                name="users-password"
                                 placeholder={strings["password"]}
                               />
                               <input
-                                name="user-email"
+                                name="users-email"
                                 placeholder="Email"
                                 type="email"
                               />

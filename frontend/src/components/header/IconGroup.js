@@ -41,14 +41,14 @@ const IconGroup = ({
           </form>
         </div>
       </div>
-      <div className="same-style user-setting d-none d-lg-block">
+      <div className="same-style users-setting d-none d-lg-block">
         <button
-          className="user-setting-active"
+          className="users-setting-active"
           onClick={(e) => handleClick(e)}
         >
-          <i className="pe-7s-user-female" />
+          <i className="pe-7s-users-female" />
         </button>
-        <div className="user-dropdown">
+        <div className="users-dropdown">
           <ul>
             <li>
               <Link to={process.env.PUBLIC_URL + "/login-register"}>
@@ -61,7 +61,7 @@ const IconGroup = ({
               </Link>
             </li>
             <li>
-              <Link to={process.env.PUBLIC_URL + "/my-user"}>
+              <Link to={process.env.PUBLIC_URL + "/my-users"}>
                 {strings["my_account"]}
               </Link>
             </li>

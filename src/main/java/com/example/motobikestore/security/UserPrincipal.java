@@ -1,6 +1,6 @@
 package com.example.motobikestore.security;
 
-import com.example.motobikestore.entity.User;
+import com.example.motobikestore.entity.Users;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,14 +17,14 @@ public class UserPrincipal implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public static UserPrincipal create(User user) {
-        String userRole = user.getRoles().iterator().next().name();
+    public static UserPrincipal create(Users users) {
+        String userRole = users.getRoles().iterator().next().name();
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(userRole));
-        return new UserPrincipal(user.getUserID(), user.getEmail(), user.getPassword(), authorities);
+        return new UserPrincipal(users.getUserID(), users.getEmail(), users.getPassword(), authorities);
     }
 
-    public static UserPrincipal create(User user, Map<String, Object> attributes) {
-        UserPrincipal userPrincipal = UserPrincipal.create(user);
+    public static UserPrincipal create(Users users, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = UserPrincipal.create(users);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
     }

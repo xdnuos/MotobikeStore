@@ -2,7 +2,6 @@ package com.example.motobikestore.entity;
 
 import com.example.motobikestore.enums.Sex;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -21,7 +20,6 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID customerID;
 
-
     @Pattern(regexp="\\d{9}|\\d{10}", message="Phone number must be 9 or 10 digits")
     @Column(nullable = false, length = 15,unique=true)
     private String phone;
@@ -38,7 +36,7 @@ public class Customer implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "userID")
-    private User user;
+    private Users users;
 
 
 }

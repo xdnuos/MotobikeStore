@@ -2,7 +2,7 @@ package com.example.motobikestore.service.Impl;
 
 import com.blazebit.lang.StringUtils;
 import com.example.motobikestore.DTO.CaptchaResponse;
-import com.example.motobikestore.entity.User;
+import com.example.motobikestore.entity.Users;
 import com.example.motobikestore.enums.Role;
 import com.example.motobikestore.exception.ApiRequestException;
 import com.example.motobikestore.exception.EmailException;
@@ -53,12 +53,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public Map<String, Object> login(String email, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            User user = userRepository.findByEmail(email)
+            Users users = userRepository.findByEmail(email)
                     .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
-            String accountRole = user.getRoles().iterator().next().name();
+            String accountRole = users.getRoles().iterator().next().name();
             String token = jwtProvider.createToken(email, accountRole);
             Map<String, Object> response = new HashMap<>();
-            response.put("user", user);
+            response.put("user", users);
             response.put("token", token);
             return response;
         } catch (AuthenticationException e) {
@@ -68,25 +68,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public String registerUser(User user, String captcha, String password2) {
+    public String registerUser(Users users, String captcha, String password2) {
         String url = String.format(captchaUrl, secret, captcha);
         restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponse.class);
 
-        if (user.getPassword() != null && !user.getPassword().equals(password2)) {
+        if (users.getPassword() != null && !users.getPassword().equals(password2)) {
             throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
         }
 
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(users.getEmail()).isPresent()) {
             throw new EmailException(EMAIL_IN_USE);
         }
-        user.setActive(false);
-        user.setRoles(Collections.singleton(Role.USER));
+        users.setActive(false);
+        users.setRoles(Collections.singleton(Role.USER));
 //        user.setProvider(AuthProvider.LOCAL);
-        user.setActivationCode(UUID.randomUUID().toString());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        users.setActivationCode(UUID.randomUUID().toString());
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        userRepository.save(users);
 
-        sendEmail(user, "Activation code", "registration-template", "registrationUrl", "/activate/" + user.getActivationCode());
+        sendEmail(users, "Activation code", "registration-template", "registrationUrl", "/activate/" + users.getActivationCode());
         return "User successfully registered.";
     }
 
@@ -121,12 +121,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     @Transactional
     public String sendPasswordResetCode(String email) {
-        User user = userRepository.findByEmail(email)
+        Users users = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
-        user.setPasswordResetCode(UUID.randomUUID().toString());
-        userRepository.save(user);
+        users.setPasswordResetCode(UUID.randomUUID().toString());
+        userRepository.save(users);
 
-        sendEmail(user, "Password reset", "password-reset-template", "resetUrl", "/reset/" + user.getPasswordResetCode());
+        sendEmail(users, "Password reset", "password-reset-template", "resetUrl", "/reset/" + users.getPasswordResetCode());
         return "Reset password code is send to your E-mail";
     }
 
@@ -139,29 +139,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (password != null && !password.equals(password2)) {
             throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
         }
-        User user = userRepository.findByEmail(email)
+        Users users = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
-        user.setPassword(passwordEncoder.encode(password));
-        user.setPasswordResetCode(null);
-        userRepository.save(user);
+        users.setPassword(passwordEncoder.encode(password));
+        users.setPasswordResetCode(null);
+        userRepository.save(users);
         return "Password successfully changed!";
     }
 
     @Override
     @Transactional
     public String activateUser(String code) {
-        User user = userRepository.findByActivationCode(code)
+        Users users = userRepository.findByActivationCode(code)
                 .orElseThrow(() -> new ApiRequestException(ACTIVATION_CODE_NOT_FOUND, HttpStatus.NOT_FOUND));
-        user.setActivationCode(null);
-        user.setActive(true);
-        userRepository.save(user);
+        users.setActivationCode(null);
+        users.setActive(true);
+        userRepository.save(users);
         return "User successfully activated.";
     }
 
-    private void sendEmail(User user, String subject, String template, String urlAttribute, String urlPath) {
+    private void sendEmail(Users users, String subject, String template, String urlAttribute, String urlPath) {
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("firstName", user.getFullname());
+        attributes.put("firstName", users.getFirstName());
         attributes.put(urlAttribute, "http://" + hostname + urlPath);
-        customMailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
+        customMailSender.sendMessageHtml(users.getEmail(), subject, template, attributes);
     }
 }

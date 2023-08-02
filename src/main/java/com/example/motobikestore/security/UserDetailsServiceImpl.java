@@ -1,7 +1,7 @@
 package com.example.motobikestore.security;
 
 import com.example.motobikestore.entity.Users;
-import com.example.motobikestore.repository.jpa.UserRepository;
+import com.example.motobikestore.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

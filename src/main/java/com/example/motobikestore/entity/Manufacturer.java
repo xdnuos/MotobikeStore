@@ -1,5 +1,6 @@
 package com.example.motobikestore.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,6 +25,6 @@ public class Manufacturer implements Serializable {
     private boolean isActive;
 
     @OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     private List<Product> product = new ArrayList<>();
 }

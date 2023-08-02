@@ -1,44 +1,40 @@
 package com.example.motobikestore.DTO;
 
 import com.example.motobikestore.enums.Arrival;
-import com.example.motobikestore.service.ImageService;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * DTO for {@link com.example.motobikestore.entity.Product}
+ */
+@AllArgsConstructor
 @Getter
-@Setter
-@NoArgsConstructor
 public class ProductDTO implements Serializable {
-    ImageService imageService;
-
-    private String sku;
-    private String name;
-    private BigDecimal price;
-    private String shortDescription;
-    private  String fullDescription;
-    private Arrival arrival;
-    private List<Integer> categoryIds;
-    private List<Integer> tagIds;
-    private Integer manufacturerIds;
-    private List<String> imagePath;
-    private List<VarientDTO> varientDTOS;
-
-    public ProductDTO(String sku, String name, BigDecimal price, String shortDescription, String fullDescription, Arrival arrival, List<Integer> categoryIds, List<Integer> tagIds, MultipartFile[] images, List<VarientDTO> varientDTOS) {
-        this.sku = sku;
-        this.name = name;
-        this.price = price;
-        this.shortDescription = shortDescription;
-        this.fullDescription = fullDescription;
-        this.arrival = arrival;
-        this.categoryIds = categoryIds;
-        this.tagIds = tagIds;
-        this.imagePath = imageService.saveImages(images);
-        this.varientDTOS = varientDTOS;
-    }
+    private final Long productID;
+    @Size(message = "Độ dài SKU từ 2-8 kí tự", min = 2, max = 8)
+    @NotEmpty(message = "Vui lòng nhập mã SKU")
+    private final String sku;
+    @Size(message = "Độ dài tên sản phẩm từ 4-128 kí tự", min = 4, max = 128)
+    @NotEmpty(message = "Vui lòng nhập tên sản phẩm")
+    private final String name;
+    @Min(message = "Giá sản phẩm không hợp lệ", value = 1)
+    private final BigDecimal price;
+    @Size(message = "Độ dài mô tả từ 20-256 kí tự ", min = 20, max = 512)
+    private final String shortDescription;
+    @Size(message = "Độ dài mô tả từ 20-4086 kí tự ", min = 20, max = 4086)
+    private final String fullDescription;
+    private final Arrival arrival;
+    private final Integer stock;
+    private final List<Integer> categoryIDs;
+    private final List<Integer> tagIDs;
+    private final Integer manufacturerID;
+    private final MultipartFile[] imageFiles;
 }

@@ -29,22 +29,9 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests((authorizeHttpRequests) -> {
                     authorizeHttpRequests
-                            .requestMatchers("/api/v1/auth/**",
-                            "/api/v1/auth/login",
-                            "/api/v1/registration/**",
-                            "/api/v1/perfumes/**",
-                            "/api/v1/users/cart",
-                            "/api/v1/order/**",
-                            "/api/v1/review/**",
-                            "/websocket", "/websocket/**",
-                            "/api/v1/products/get/**",
-                            "/img/**",
-                            "/static/**",
-                            "/auth/**",
-                            "/oauth2/**",
-                            "/**/*swagger*/**",
-                            "/v2/api-docs").permitAll()
-                    .anyRequest().authenticated();
+//                        .requestMatchers(
+//                        "/api/v1/**").permitAll()
+                    .anyRequest().permitAll();
                 });
         http.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

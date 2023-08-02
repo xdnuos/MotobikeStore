@@ -1,14 +1,13 @@
 package com.example.motobikestore.view;
 
 import com.blazebit.persistence.view.EntityView;
-import com.blazebit.persistence.view.FetchStrategy;
 import com.blazebit.persistence.view.IdMapping;
 import com.blazebit.persistence.view.Mapping;
-import com.example.motobikestore.entity.*;
+import com.example.motobikestore.entity.Product;
 import com.example.motobikestore.enums.Arrival;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @EntityView(Product.class)
 public interface ProductView {
@@ -27,58 +26,21 @@ public interface ProductView {
 
     Arrival getArrival();
 
-    float getRating();
+    Float getRating();
 
-    int getSaleCount();
+    Integer getSaleCount();
 
-    ManufacturerView getManufacturer();
+    Integer getStock();
 
-    List<CategoryView> getCategorys();
+    @Mapping("manufacturer.name")
+    String getManufacturer();
 
-    List<TagView> getTags();
+    @Mapping("categoryList.name")
+    Set<String> getCategories();
 
-    List<ImagesView> getImages();
-    @Mapping(fetch = FetchStrategy.MULTISET)
-    List<VariationView> getVariations();
+    @Mapping("tagList.name")
+    Set<String> getTags();
 
-    @EntityView(Manufacturer.class)
-    public interface ManufacturerView {
-        String getName();
-    }
-
-    @EntityView(Category.class)
-    public interface CategoryView {
-        String getName();
-    }
-
-    @EntityView(Tag.class)
-    public interface TagView {
-        String getName();
-    }
-
-    @EntityView(Images.class)
-    public interface ImagesView {
-        String getImagePath();
-    }
-
-    @EntityView(Variation.class)
-    public interface VariationView {
-        String getName();
-
-        ImagesView getImage();
-        @Mapping(fetch = FetchStrategy.MULTISET)
-        List<SizeView> getSizes();
-
-        @EntityView(Images.class)
-        public interface ImagesView {
-            String getImagePath();
-        }
-
-        @EntityView(Size.class)
-        public interface SizeView {
-            String getName();
-
-            int getStock();
-        }
-    }
+    @Mapping("imagesList.imagePath")
+    Set<String> getImages();
 }

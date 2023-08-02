@@ -5,10 +5,8 @@ import com.blazebit.persistence.spring.data.webmvc.KeysetConfig;
 import com.example.motobikestore.DTO.ProductDTO;
 import com.example.motobikestore.entity.Product;
 import com.example.motobikestore.exception.InputFieldException;
-import com.example.motobikestore.mapper.CommonMapper;
-import com.example.motobikestore.repository.blaze.ProductViewRepository;
-import com.example.motobikestore.repository.jpa.ProductRepository;
 import com.example.motobikestore.service.ProductService;
+import com.example.motobikestore.specifications.ProductFilter;
 import com.example.motobikestore.view.ProductView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,41 +14,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import static com.example.motobikestore.constants.PathConstants.*;
 
 @RestController
 @RequestMapping(API_V1_PRODUCT)
 public class ProductController {
     @Autowired
-    private ProductViewRepository productViewRepository;
-
-    @Autowired
-    CommonMapper commonMapper;
-    @Autowired
     private ProductService productService;
 
+//  http://localhost:8080/api/v1/products/get?page=0&size=3&sort=productID,desc
     @GetMapping(GET)
-    public Page<ProductView> getAllProdcutDTO(@KeysetConfig(Product.class) KeysetPageable pageable){
-        return productViewRepository.findAllToPage(pageable);
+    public Page<ProductView> getAllProductDTO(@KeysetConfig(Product.class) KeysetPageable pageable){
+        return productService.findAllToPage(pageable);
+    }
+    @PostMapping(GET)
+    public Page<ProductView> getAllProductWithFiler (@KeysetConfig(Product.class) KeysetPageable pageable,
+                                                     @RequestBody(required = false) ProductFilter productFilter){
+        return productService.findAllToPageWithFilter(pageable,productFilter);
     }
 
-//    @PostMapping(ADD)
-//    public ResponseEntity<String> addProduct(@RequestParam("sku") String sku,
-//                                             @RequestParam("name") String name,
-//                                             @RequestParam("price") BigDecimal price,
-//                                             @RequestParam("shortDescription") String shortDescription,
-//                                             @RequestParam("fullDescription") String fullDescription,
-//                                             @RequestParam("arrival") String arrival,
-//                                             @RequestParam("manufacturer") String manufacturer,
-//                                             @RequestParam("categories") List<String> categories,
-//                                             BindingResult bindingResult){
-//        if (bindingResult.hasErrors()) {
-//            throw new InputFieldException(bindingResult);
-//        }
-//        Product product = commonMapper.convertToEntity(productDTO, Product.class);
-//        return ResponseEntity.ok(productService.addProduct(product));
-//    }
+    @PostMapping(ADD)
+    public ResponseEntity<String> addProduct(@ModelAttribute ProductDTO productDTO,
+                                             BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        }
+        return ResponseEntity.ok(productService.addProduct(productDTO));
+    }
 }

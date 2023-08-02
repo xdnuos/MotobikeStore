@@ -1,5 +1,6 @@
 package com.example.motobikestore.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,7 +27,7 @@ public class Category implements Serializable {
     @Column
     private boolean isActive;
 
-    @ManyToMany(mappedBy = "categorys",fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @ManyToMany(mappedBy = "categoryList",fetch = FetchType.LAZY)
+    @JsonBackReference
     private Collection<Product> productcate = new ArrayList<>();
 }

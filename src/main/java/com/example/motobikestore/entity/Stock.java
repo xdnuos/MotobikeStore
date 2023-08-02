@@ -23,7 +23,7 @@ public class Stock implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime createDate;
 
-    @ManyToMany(mappedBy = "stocks",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "productStock",fetch = FetchType.LAZY)
     @JsonManagedReference
     private Collection<Product> productstock = new ArrayList<>();
 

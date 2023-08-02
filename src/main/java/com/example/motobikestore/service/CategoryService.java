@@ -3,13 +3,15 @@ package com.example.motobikestore.service;
 import com.example.motobikestore.DTO.CategoryDTO;
 import com.example.motobikestore.entity.Category;
 import com.example.motobikestore.exception.ApiRequestException;
-import com.example.motobikestore.repository.jpa.CategoryRepository;
+import com.example.motobikestore.mapper.CategoryMapper;
+import com.example.motobikestore.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.example.motobikestore.constants.ErrorMessage.CATEGORY_NOT_FOUND;
 import static com.example.motobikestore.constants.SuccessMessage.*;
@@ -18,8 +20,10 @@ import static com.example.motobikestore.constants.SuccessMessage.*;
 public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
-    public List<CategoryDTO> findAllDTO() {
+    public Set<CategoryDTO> findAllDTO() {
         // TODO Auto-generated method stub
         return this.categoryRepository.findAllNew();
     }
@@ -32,7 +36,7 @@ public class CategoryService {
         return this.categoryRepository.findById(id).orElseThrow(() -> new ApiRequestException(CATEGORY_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
-    public List<CategoryDTO> findAllActiveDTO(){
+    public Set<CategoryDTO> findAllActiveDTO(){
         return this.categoryRepository.findAllActive();
     }
 
@@ -41,16 +45,23 @@ public class CategoryService {
     }
 
     @Transactional
-    public String addCategory(Category category){
-        this.categoryRepository.save(category);
-        return SUCCESS_ADD_CATE;
+    public String addCategory(CategoryDTO categoryDTO){
+        if (!categoryRepository.existsByName(categoryDTO.getName())){
+            Category category = categoryMapper.toEntity(categoryDTO);
+            category.setActive(true);
+            this.categoryRepository.save(category);
+            return SUCCESS_ADD_CATE;
+        }
+        return EXIST_CATE;
     }
     @Transactional
     public String updateCategory(Category category){
-        this.categoryRepository.save(category);
-        return SUCCESS_UPDATE_CATE;
+        if (!categoryRepository.existsByName(category.getName())){
+            this.categoryRepository.save(category);
+            return SUCCESS_UPDATE_CATE;
+        }
+        return EXIST_CATE;
     }
-
     @Transactional
     public String changeStateCategory(int id){
         Category category = findById(id);

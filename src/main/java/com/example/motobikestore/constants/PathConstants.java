@@ -25,7 +25,7 @@ public class PathConstants {
 
     public static final String API_V1_PRODUCT = API_V1 + "/products";
     public static final String IMAGEURL = "localhost:5000//image/";
-    public static final String SAVEIMAGEPATH = "D:/images";
+    public static final String SAVEIMAGEPATH = "D:/images/";
     public static final String ADD = "/add";
     public static final String DELETE = "/delete";
     public static final String EDIT = "/edit";

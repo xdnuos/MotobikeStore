@@ -2,9 +2,10 @@ package com.example.motobikestore.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,25 +16,25 @@ import static com.example.motobikestore.constants.PathConstants.SAVEIMAGEPATH;
 public class ImageService {
     public List<String> saveImages(MultipartFile[] files){
         List<String> images = new ArrayList<>();
-        try {
-            for (MultipartFile file : files) {
-                String path = SAVEIMAGEPATH + file.getOriginalFilename();
-                file.transferTo(new File(path));
-                images.add(IMAGEURL+path);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (MultipartFile file : files) {
+            images.add(transferFile(file));
         }
         return images;
     }
-
-    public String saveImage(MultipartFile file){
-        String path = SAVEIMAGEPATH + file.getOriginalFilename();
+    private String transferFile(MultipartFile file){
+        String filename = file.getOriginalFilename();
         try {
-            file.transferTo(new File(path));
+            byte[] bytes = file.getBytes();
+            String path = SAVEIMAGEPATH + filename;
+            Files.write(Path.of(path), bytes);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return IMAGEURL+path;
+        return filename;
+    }
+
+    public String saveImage(MultipartFile file){
+        return transferFile(file);
     }
 }

@@ -1,23 +1,17 @@
 package com.example.motobikestore.DTO;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import com.example.motobikestore.entity.Manufacturer;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import static com.example.motobikestore.constants.ErrorMessage.EMPTY_CONTENT;
+import java.io.Serializable;
 
+/**
+ * DTO for {@link Manufacturer}
+ */
+@AllArgsConstructor
 @Getter
-@Setter
-@NoArgsConstructor
-public class ManufacturerDTO {
-    private int manufacturerID;
-    @NotBlank(message = EMPTY_CONTENT)
-    private String name;
-
-    public ManufacturerDTO(int manufacturerID, String name) {
-        this.manufacturerID = manufacturerID;
-        this.name = name;
-    }
+public class ManufacturerDTO implements Serializable {
+    private final int manufacturerID;
+    private final String name;
 }

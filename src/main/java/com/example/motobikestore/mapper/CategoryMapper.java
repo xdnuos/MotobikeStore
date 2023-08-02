@@ -2,25 +2,14 @@ package com.example.motobikestore.mapper;
 
 import com.example.motobikestore.DTO.CategoryDTO;
 import com.example.motobikestore.entity.Category;
-import com.example.motobikestore.exception.InputFieldException;
-import com.example.motobikestore.service.CategoryService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
+import org.mapstruct.*;
 
-@Component
-@RequiredArgsConstructor
-public class CategoryMapper {
-    private final CommonMapper commonMapper;
-    private final CategoryService categoryService;
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+public interface CategoryMapper {
+    Category toEntity(CategoryDTO categoryDT);
 
-    public String addCategory(CategoryDTO categoryDTO, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        }
-        Category category = commonMapper.convertToEntity(categoryDTO, Category.class);
-        category.setActive(true);
-        return categoryService.addCategory(category);
-    }
+    CategoryDTO toDto(Category category);
 
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    Category partialUpdate(CategoryDTO categoryDT, @MappingTarget Category category);
 }

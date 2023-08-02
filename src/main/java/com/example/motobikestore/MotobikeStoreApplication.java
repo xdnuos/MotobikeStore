@@ -5,13 +5,11 @@ import com.blazebit.persistence.spring.data.repository.config.EnableBlazeReposit
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 @EnableBlazeRepositories
 @EnableEntityViews("com.example.motobikestore.view")
-@SpringBootApplication
 public class MotobikeStoreApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(MotobikeStoreApplication.class, args);
     }
-
 }

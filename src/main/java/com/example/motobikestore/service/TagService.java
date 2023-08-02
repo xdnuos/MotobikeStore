@@ -3,13 +3,14 @@ package com.example.motobikestore.service;
 import com.example.motobikestore.DTO.TagDTO;
 import com.example.motobikestore.entity.Tag;
 import com.example.motobikestore.exception.ApiRequestException;
-import com.example.motobikestore.repository.jpa.TagRepository;
+import com.example.motobikestore.repository.TagRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.example.motobikestore.constants.ErrorMessage.TAG_NOT_FOUND;
 import static com.example.motobikestore.constants.SuccessMessage.*;
@@ -19,9 +20,9 @@ public class TagService {
     @Autowired
     private TagRepository tagRepository;
 
-    public List<TagDTO> findAllDTO() {
+    public Set<TagDTO> findAllDTO() {
         // TODO Auto-generated method stub
-        return this.tagRepository.findAllNew();
+        return this.tagRepository.findAllDTO();
     }
 
     public TagDTO findByIdDTO(int id){
@@ -31,7 +32,7 @@ public class TagService {
         return this.tagRepository.findById(id).orElseThrow(() -> new ApiRequestException(TAG_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
-    public List<TagDTO> findAllActiveDTO(){
+    public Set<TagDTO> findAllActiveDTO(){
         return this.tagRepository.findAllActive();
     }
 
@@ -40,14 +41,20 @@ public class TagService {
     }
 
     public String addTag(Tag tag){
-        this.tagRepository.save(tag);
-        return "Tag successfully adder.";
+        if (tagRepository.existsByName(tag.getName())){
+            this.tagRepository.save(tag);
+            return SUCCESS_ADD_TAG;
+        }
+        return EXIST_TAG;
     }
 
     @Transactional
     public String updateTag(Tag tag){
-        this.tagRepository.save(tag);
-        return SUCCESS_UPDATE_TAG;
+        if (tagRepository.existsByName(tag.getName())) {
+            this.tagRepository.save(tag);
+            return SUCCESS_UPDATE_TAG;
+        }
+        return EXIST_TAG;
     }
 
     @Transactional

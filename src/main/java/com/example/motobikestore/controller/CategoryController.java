@@ -2,8 +2,8 @@ package com.example.motobikestore.controller;
 
 import com.example.motobikestore.DTO.CategoryDTO;
 import com.example.motobikestore.entity.Category;
+import com.example.motobikestore.mapper.CategoryMapper;
 import com.example.motobikestore.exception.InputFieldException;
-import com.example.motobikestore.mapper.CommonMapper;
 import com.example.motobikestore.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 import static com.example.motobikestore.constants.PathConstants.*;
 
@@ -23,10 +23,8 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    private final CommonMapper commonMapper;
-
     @GetMapping(GET)
-    public List<CategoryDTO> getAllCategoriesActive() {
+    public Set<CategoryDTO> getAllCategoriesActive() {
         return categoryService.findAllActiveDTO();
     }
 
@@ -36,7 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping(GET_ALL)
-    public List<CategoryDTO> getAllCategories() {
+    public Set<CategoryDTO> getAllCategories() {
         return categoryService.findAllDTO();
     }
 
@@ -48,9 +46,7 @@ public class CategoryController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        Category category = commonMapper.convertToEntity(categoryDTO, Category.class);
-        category.setActive(true);
-        return ResponseEntity.ok(categoryService.addCategory(category));
+        return ResponseEntity.ok(categoryService.addCategory(categoryDTO));
     }
 
     @PutMapping(value = EDIT_BY_ID)

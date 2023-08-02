@@ -1,6 +1,5 @@
 package com.example.motobikestore.service.Impl;
 
-import com.blazebit.lang.StringUtils;
 import com.example.motobikestore.DTO.CaptchaResponse;
 import com.example.motobikestore.entity.Users;
 import com.example.motobikestore.enums.Role;
@@ -8,7 +7,7 @@ import com.example.motobikestore.exception.ApiRequestException;
 import com.example.motobikestore.exception.EmailException;
 import com.example.motobikestore.exception.PasswordConfirmationException;
 import com.example.motobikestore.exception.PasswordException;
-import com.example.motobikestore.repository.jpa.UserRepository;
+import com.example.motobikestore.repository.UserRepository;
 import com.example.motobikestore.security.JwtProvider;
 import com.example.motobikestore.service.AuthenticationService;
 import com.example.motobikestore.service.email.CustomMailSender;
@@ -21,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;

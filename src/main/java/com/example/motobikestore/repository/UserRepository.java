@@ -1,4 +1,4 @@
-package com.example.motobikestore.repository.jpa;
+package com.example.motobikestore.repository;
 
 import com.example.motobikestore.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;

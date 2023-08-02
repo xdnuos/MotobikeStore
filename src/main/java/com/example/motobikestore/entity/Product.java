@@ -2,20 +2,25 @@ package com.example.motobikestore.entity;
 
 import com.example.motobikestore.enums.Arrival;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.Order;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Table(name="product")
 public class Product implements Serializable {
     @Id
@@ -49,46 +54,50 @@ public class Product implements Serializable {
     private Arrival arrival;
 
     @Column(name = "rating")
-    private float rating;
+    private Float rating;
 
     @Column(name = "saleCount")
-    private int saleCount;
+    private Integer saleCount;
 
     @Column(name="active")
-    private boolean active;
+    private Boolean active;
+
+    @Column(name="stock")
+    private Integer stock;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JoinColumn(name = "manufacturerID")
-    @JsonBackReference
     private Manufacturer manufacturer;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonManagedReference
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "categoryID"))
-    @JsonBackReference
-    private List<Category> categorys = new ArrayList<>();
+    private Set<Category> categoryList;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_tag",
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "tagID"))
-    @JsonBackReference
-    private List<Tag> tags = new ArrayList<>();
+    @JsonManagedReference
+    private Set<Tag> tagList ;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinTable(name = "product_stock",
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "stockID"))
-    @JsonBackReference
-    private List<Stock> stocks = new ArrayList<>();
-
+    private List<Stock> productStock;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-    private List<OrderItem> oderItem = new ArrayList<>();
+    @JsonManagedReference
+    private List<OrderItem> oderItem;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Images> images = new ArrayList<>();
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private Set<Images> imagesList;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Variation> variations = new ArrayList<>();
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
+//    private List<Variation> variations = new ArrayList<>();
 }

@@ -3,6 +3,7 @@ package com.example.motobikestore.service;
 import com.example.motobikestore.DTO.ManufacturerDTO;
 import com.example.motobikestore.entity.Manufacturer;
 import com.example.motobikestore.exception.ApiRequestException;
+import com.example.motobikestore.mapper.ManufacturerMapper;
 import com.example.motobikestore.repository.ManufacturerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import static com.example.motobikestore.constants.SuccessMessage.*;
 public class ManufacturerService {
     @Autowired
     private ManufacturerRepository manufacturerRepository;
+    @Autowired
+    private ManufacturerMapper manufacturerMapper;
 
     public Set<ManufacturerDTO> findAll() {
         // TODO Auto-generated method stub
@@ -41,8 +44,10 @@ public class ManufacturerService {
         return this.manufacturerRepository.findAllActiveById(id).orElseThrow(() -> new ApiRequestException(MANUFACTURER_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
-    public String addManufacturer(Manufacturer manufacturer){
-        if (!manufacturerRepository.existsByName(manufacturer.getName())){
+    public String addManufacturer(ManufacturerDTO manufacturerDTO){
+        if (!manufacturerRepository.existsByName(manufacturerDTO.getName())){
+            Manufacturer manufacturer = manufacturerMapper.toEntity(manufacturerDTO);
+            manufacturer.setActive(true);
             manufacturerRepository.save(manufacturer);
             return SUCCESS_ADD_MANU;
         }

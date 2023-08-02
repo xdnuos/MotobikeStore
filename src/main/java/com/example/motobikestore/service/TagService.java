@@ -3,6 +3,7 @@ package com.example.motobikestore.service;
 import com.example.motobikestore.DTO.TagDTO;
 import com.example.motobikestore.entity.Tag;
 import com.example.motobikestore.exception.ApiRequestException;
+import com.example.motobikestore.mapper.TagMapper;
 import com.example.motobikestore.repository.TagRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import static com.example.motobikestore.constants.SuccessMessage.*;
 public class TagService {
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private TagMapper tagMapper;
 
     public Set<TagDTO> findAllDTO() {
         // TODO Auto-generated method stub
@@ -40,8 +43,10 @@ public class TagService {
         return this.tagRepository.findAllActiveById(id).orElseThrow(() -> new ApiRequestException(TAG_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
-    public String addTag(Tag tag){
-        if (tagRepository.existsByName(tag.getName())){
+    public String addTag(TagDTO tagDTO){
+        if (tagRepository.existsByName(tagDTO.getName())){
+            Tag tag = tagMapper.toEntity(tagDTO);
+            tag.setIsActive(true);
             this.tagRepository.save(tag);
             return SUCCESS_ADD_TAG;
         }

@@ -3,7 +3,9 @@ package com.example.motobikestore.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -22,7 +24,7 @@ public class Images implements Serializable {
 
     @Column(name = "description")
     private String description;
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="productID")
     private Product product;

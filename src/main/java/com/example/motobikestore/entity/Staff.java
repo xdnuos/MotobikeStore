@@ -9,6 +9,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
@@ -28,10 +29,9 @@ public class Staff implements Serializable {
     private String phone;
 
     @NotNull(message="Birth date cannot be null")
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message="Birth date must be in the past")
-    private Date birth;
+    private LocalDate birth;
 
     @Pattern(regexp="\\d{9}|\\d{12}", message="Identity ID must be 9 or 12 digits")
     @Column(name ="cccd",unique=true)

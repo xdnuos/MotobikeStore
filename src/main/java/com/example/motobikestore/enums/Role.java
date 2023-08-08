@@ -1,7 +1,8 @@
 package com.example.motobikestore.enums;
 
 public enum Role {
+    MASTER,
     ADMIN,
-    USER,
+    CUSTOMER,
     STAFF
 }

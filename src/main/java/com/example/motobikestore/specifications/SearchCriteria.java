@@ -1,6 +1,6 @@
 package com.example.motobikestore.specifications;
 
-import lombok.*;
+import lombok.Getter;
 
 @Getter
 public class SearchCriteria {

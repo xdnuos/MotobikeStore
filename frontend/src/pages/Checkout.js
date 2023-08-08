@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, {Fragment} from "react";
+import {Link} from "react-router-dom";
 import MetaTags from "react-meta-tags";
-import { connect } from "react-redux";
-import { multilanguage } from "redux-multilanguage";
-import { getDiscountPrice } from "../helpers/product";
+import {connect} from "react-redux";
+import {multilanguage} from "redux-multilanguage";
+import {getDiscountPrice} from "../helpers/product";
 import LayoutOne from "../layouts/LayoutOne";
 
 const Checkout = ({ strings, cartItems, currency }) => {

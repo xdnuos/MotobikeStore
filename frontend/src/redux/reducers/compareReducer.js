@@ -1,4 +1,4 @@
-import { ADD_TO_COMPARE, DELETE_FROM_COMPARE } from "../actions/compareActions";
+import {ADD_TO_COMPARE, DELETE_FROM_COMPARE} from "../actions/compareActions";
 
 const initState = [];
 

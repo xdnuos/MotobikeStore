@@ -1,8 +1,6 @@
 package com.example.motobikestore.mapper;
 
-import com.example.motobikestore.DTO.CategoryDTO;
 import com.example.motobikestore.DTO.ManufacturerDTO;
-import com.example.motobikestore.entity.Category;
 import com.example.motobikestore.entity.Manufacturer;
 import org.mapstruct.*;
 

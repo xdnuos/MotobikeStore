@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
 import {
-  getIndividualCategories,
-  getIndividualTags,
-  getIndividualColors,
-  getProductsIndividualSizes
+    getIndividualCategories,
+    getIndividualColors,
+    getIndividualTags,
+    getProductsIndividualSizes
 } from "../../helpers/product";
 import ShopSearch from "../../components/product/ShopSearch";
 import ShopCategories from "../../components/product/ShopCategories";

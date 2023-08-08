@@ -6,10 +6,10 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CategoryMapper {
-    Category toEntity(CategoryDTO categoryDT);
+    Category toEntity(CategoryDTO categoryDTO);
 
     CategoryDTO toDto(Category category);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Category partialUpdate(CategoryDTO categoryDT, @MappingTarget Category category);
+    Category partialUpdate(CategoryDTO categoryDTO, @MappingTarget Category category);
 }

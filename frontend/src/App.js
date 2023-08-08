@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import React, { useEffect, Suspense, lazy } from "react";
+import React, {lazy, Suspense, useEffect} from "react";
 import ScrollToTop from "./helpers/scroll-top";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ToastProvider } from "react-toast-notifications";
-import { multilanguage, loadLanguages } from "redux-multilanguage";
-import { connect } from "react-redux";
-import { BreadcrumbsProvider } from "react-breadcrumbs-dynamic";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {ToastProvider} from "react-toast-notifications";
+import {loadLanguages, multilanguage} from "redux-multilanguage";
+import {connect} from "react-redux";
+import {BreadcrumbsProvider} from "react-breadcrumbs-dynamic";
 
 // home pages
 const Home = lazy(() => import("./pages/Home"));

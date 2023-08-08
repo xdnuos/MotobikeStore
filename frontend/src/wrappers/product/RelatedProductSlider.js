@@ -3,7 +3,8 @@ import React from "react";
 import Swiper from "react-id-swiper";
 import SectionTitle from "../../components/section-title/SectionTitle";
 import ProductGrid from "./ProductGrid";
-import { multilanguage } from "redux-multilanguage";
+import {multilanguage} from "redux-multilanguage";
+
 const RelatedProductSlider = ({ strings, spaceBottomClass, category }) => {
   const settings = {
     loop: false,

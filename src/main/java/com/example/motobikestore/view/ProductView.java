@@ -20,6 +20,8 @@ public interface ProductView {
 
     BigDecimal getPrice();
 
+    Boolean getActive();
+
     String getShortDescription();
 
     String getFullDescription();

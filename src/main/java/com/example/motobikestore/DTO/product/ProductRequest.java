@@ -1,4 +1,4 @@
-package com.example.motobikestore.DTO;
+package com.example.motobikestore.DTO.product;
 
 import com.example.motobikestore.enums.Arrival;
 import jakarta.validation.constraints.Min;
@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
@@ -17,7 +18,8 @@ import java.util.List;
  */
 @AllArgsConstructor
 @Getter
-public class ProductDTO implements Serializable {
+@Setter
+public class ProductRequest implements Serializable {
     private final Long productID;
     @Size(message = "Độ dài SKU từ 2-8 kí tự", min = 2, max = 8)
     @NotEmpty(message = "Vui lòng nhập mã SKU")
@@ -36,5 +38,5 @@ public class ProductDTO implements Serializable {
     private final List<Integer> categoryIDs;
     private final List<Integer> tagIDs;
     private final Integer manufacturerID;
-    private final MultipartFile[] imageFiles;
+    private final List<MultipartFile> imageFiles;
 }

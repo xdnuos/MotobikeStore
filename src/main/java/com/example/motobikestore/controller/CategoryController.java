@@ -2,7 +2,6 @@ package com.example.motobikestore.controller;
 
 import com.example.motobikestore.DTO.CategoryDTO;
 import com.example.motobikestore.entity.Category;
-import com.example.motobikestore.mapper.CategoryMapper;
 import com.example.motobikestore.exception.InputFieldException;
 import com.example.motobikestore.service.CategoryService;
 import jakarta.validation.Valid;

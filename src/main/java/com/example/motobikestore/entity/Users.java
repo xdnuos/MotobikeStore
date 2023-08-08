@@ -2,9 +2,9 @@ package com.example.motobikestore.entity;
 
 import com.example.motobikestore.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -47,6 +47,8 @@ public class Users implements Serializable {
     @Column(name = "password_reset_code")
     private String passwordResetCode;
 
+    @Column(name = "reset_passcode_create")
+    private LocalDateTime resetPassCodeCreate;
     @Transient
     public String getFullName(){
         return this.firstName + " " + this.lastName;

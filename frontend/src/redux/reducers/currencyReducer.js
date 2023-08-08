@@ -1,4 +1,4 @@
-import { SET_CURRENCY } from "../actions/currencyActions";
+import {SET_CURRENCY} from "../actions/currencyActions";
 
 const initState = {
   currencySymbol: "VNĐ",

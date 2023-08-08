@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState, useEffect } from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import MetaTags from "react-meta-tags";
 import Paginator from "react-hooks-paginator";
-import { connect } from "react-redux";
-import { getSortedProducts } from "../helpers/product";
+import {connect} from "react-redux";
+import {getSortedProducts} from "../helpers/product";
 import LayoutOne from "../layouts/LayoutOne";
 import ShopSidebar from "../wrappers/product/ShopSidebar";
 import ShopTopbar from "../wrappers/product/ShopTopbar";

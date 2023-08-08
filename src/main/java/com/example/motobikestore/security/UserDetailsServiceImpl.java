@@ -1,7 +1,7 @@
 package com.example.motobikestore.security;
 
 import com.example.motobikestore.entity.Users;
-import com.example.motobikestore.repository.UserRepository;
+import com.example.motobikestore.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +14,7 @@ import static com.example.motobikestore.constants.ErrorMessage.USER_NOT_FOUND;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UsersRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

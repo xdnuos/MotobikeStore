@@ -1,5 +1,7 @@
 package com.example.motobikestore.service.email;
 
+import com.example.motobikestore.entity.Users;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import jakarta.mail.internet.MimeMessage;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -19,7 +21,8 @@ public class CustomMailSender {
 
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine thymeleafTemplateEngine;
-
+    @Value("${hostname}")
+    private String hostname;
     @Value("${spring.mail.username}")
     private String username;
 
@@ -35,5 +38,12 @@ public class CustomMailSender {
         helper.setSubject(subject);
         helper.setText(htmlBody, true);
         mailSender.send(message);
+    }
+
+    public void sendEmail(Users users, String subject, String template, String urlAttribute, String urlPath) {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("firstName", users.getFirstName());
+        attributes.put(urlAttribute, "http://" + hostname + urlPath);
+        sendMessageHtml(users.getEmail(), subject, template, attributes);
     }
 }

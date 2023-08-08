@@ -1,5 +1,6 @@
 package com.example.motobikestore.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@Table
+@Table(name = "address")
 public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +20,8 @@ public class Address implements Serializable {
 
     private String fullname;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @JoinColumn(name = "customerID")
     private Customer customer;
 }

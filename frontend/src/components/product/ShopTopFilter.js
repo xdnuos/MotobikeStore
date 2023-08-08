@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import {
-  getIndividualCategories,
-  getIndividualTags,
-  getIndividualColors,
-  getProductsIndividualSizes,
-  setActiveSort
+    getIndividualCategories,
+    getIndividualColors,
+    getIndividualTags,
+    getProductsIndividualSizes,
+    setActiveSort
 } from "../../helpers/product";
 
 const ShopTopFilter = ({ products, getSortParams }) => {

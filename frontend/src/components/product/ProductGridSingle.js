@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
-import { getDiscountPrice } from "../../helpers/product";
+import React, {Fragment, useState} from "react";
+import {Link} from "react-router-dom";
+import {useToasts} from "react-toast-notifications";
+import {getDiscountPrice} from "../../helpers/product";
 import Rating from "./sub-components/ProductRating";
 import ProductModal from "./ProductModal";
-import { multilanguage } from "redux-multilanguage";
+import {multilanguage} from "redux-multilanguage";
+
 const ProductGridSingle = ({
   strings,
   product,

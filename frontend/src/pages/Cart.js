@@ -1,19 +1,19 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
+import React, {Fragment, useState} from "react";
+import {Link} from "react-router-dom";
+import {useToasts} from "react-toast-notifications";
 import MetaTags from "react-meta-tags";
-import { connect } from "react-redux";
-import { getDiscountPrice } from "../helpers/product";
+import {connect} from "react-redux";
+import {getDiscountPrice} from "../helpers/product";
 import {
-  addToCart,
-  decreaseQuantity,
-  deleteFromCart,
-  cartItemStock,
-  deleteAllFromCart,
+    addToCart,
+    cartItemStock,
+    decreaseQuantity,
+    deleteAllFromCart,
+    deleteFromCart,
 } from "../redux/actions/cartActions";
 import LayoutOne from "../layouts/LayoutOne";
-import { multilanguage } from "redux-multilanguage";
+import {multilanguage} from "redux-multilanguage";
 
 const Cart = ({
   strings,

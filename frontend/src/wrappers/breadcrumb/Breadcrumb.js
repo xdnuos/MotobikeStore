@@ -1,6 +1,6 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { Breadcrumbs } from "react-breadcrumbs-dynamic";
+import {NavLink} from "react-router-dom";
+import {Breadcrumbs} from "react-breadcrumbs-dynamic";
 
 const Breadcrumb = () => {
   return (

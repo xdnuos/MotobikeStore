@@ -16,7 +16,7 @@
 // };
 
 // export default productReducer;
-import { FETCH_PRODUCTS } from "../actions/productActions";
+import {FETCH_PRODUCTS} from "../actions/productActions";
 
 const initialState = {
   // Khởi tạo state ban đầu của productData

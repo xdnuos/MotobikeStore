@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { setActiveSort } from "../../helpers/product";
-import { multilanguage } from "redux-multilanguage";
+import {setActiveSort} from "../../helpers/product";
+import {multilanguage} from "redux-multilanguage";
+
 const ShopTag = ({ strings, tags, getSortParams }) => {
   return (
     <div className="sidebar-widget mt-50">

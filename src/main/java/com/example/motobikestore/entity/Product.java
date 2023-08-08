@@ -7,13 +7,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class Product implements Serializable {
     private Long productID;
 
     @Size(min = 2, max = 8,message = "Độ dài SKU từ 2-8 kí tự")
-    @Column(name = "sku", length = 8)
+    @Column(name = "sku", length = 8,unique=true)
     @NotEmpty(message = "Vui lòng nhập mã SKU")
     private String sku;
 
@@ -65,38 +66,38 @@ public class Product implements Serializable {
     @Column(name="stock")
     private Integer stock;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinColumn(name = "manufacturerID")
     private Manufacturer manufacturer;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "categoryID"))
-    private Set<Category> categoryList;
+    private Set<Category> categoryList=new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "product_tag",
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "tagID"))
     @JsonManagedReference
-    private Set<Tag> tagList ;
+    private Set<Tag> tagList =new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonManagedReference
     @JoinTable(name = "product_stock",
             joinColumns = @JoinColumn(name = "productID"),
             inverseJoinColumns = @JoinColumn(name = "stockID"))
-    private List<Stock> productStock;
+    private List<Stock> productStock= new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<OrderItem> oderItem;
+    private List<OrderItem> oderItem= new ArrayList<>();
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private Set<Images> imagesList;
+    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+    @JsonBackReference
+    private Set<Images> imagesList= new HashSet<>();
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
 //    private List<Variation> variations = new ArrayList<>();

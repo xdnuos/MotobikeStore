@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import MetaTags from "react-meta-tags";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import LayoutOne from "../layouts/LayoutOne";
 import RelatedProductSlider from "../wrappers/product/RelatedProductSlider";
 import ProductDescriptionTab from "../wrappers/product/ProductDescriptionTab";

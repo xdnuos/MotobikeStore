@@ -1,12 +1,11 @@
 package com.example.motobikestore.mapper;
 
-import com.example.motobikestore.DTO.ProductDTO;
+import com.example.motobikestore.DTO.product.ProductRequest;
 import com.example.motobikestore.entity.Product;
 import org.mapstruct.*;
 
-@Mapper
-public interface ProductMapper {
-
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+public interface ProductRequestMapper {
     @Mapping(target = "rating", ignore = true)
     @Mapping(target = "saleCount", ignore = true)
     @Mapping(target = "active", ignore = true)
@@ -16,8 +15,10 @@ public interface ProductMapper {
     @Mapping(source = "categoryIDs",target = "categoryList", ignore = true)
     @Mapping(source = "tagIDs",target = "tagList", ignore = true)
     @Mapping(source = "imageFiles",target = "imagesList", ignore = true)
-    Product toEntity(ProductDTO productDTO);
+    Product toEntity(ProductRequest productRequest);
+
+    ProductRequest toDto(Product product);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Product partialUpdate(ProductDTO productDTO, @MappingTarget Product product);
+    Product partialUpdate(ProductRequest productRequest, @MappingTarget Product product);
 }

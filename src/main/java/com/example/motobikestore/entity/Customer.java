@@ -2,12 +2,14 @@ package com.example.motobikestore.entity;
 
 import com.example.motobikestore.enums.Sex;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -28,15 +30,17 @@ public class Customer implements Serializable {
     private Sex sex;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     //bi-directional many-to-one association to Order
     @OneToMany(fetch = FetchType.LAZY, mappedBy="customer")
     private List<Orders> orders;
 
-    @ManyToOne
+    @Valid
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userID")
     private Users users;
 
-
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy="address")
+//    private List<Address> addressList;
 }

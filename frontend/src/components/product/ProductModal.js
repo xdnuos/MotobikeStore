@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState, useEffect } from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import Swiper from "react-id-swiper";
-import { getProductCartQuantity } from "../../helpers/product";
-import { Modal } from "react-bootstrap";
+import {getProductCartQuantity} from "../../helpers/product";
+import {Modal} from "react-bootstrap";
 import Rating from "./sub-components/ProductRating";
-import { connect } from "react-redux";
-import { multilanguage } from "redux-multilanguage";
+import {connect} from "react-redux";
+import {multilanguage} from "redux-multilanguage";
 
 function ProductModal(props) {
   const { product } = props;

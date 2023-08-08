@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { multilanguage } from "redux-multilanguage";
-import { connect } from "react-redux";
-import { setCurrency } from "../../redux/actions/currencyActions";
+import {multilanguage} from "redux-multilanguage";
+import {connect} from "react-redux";
+import {setCurrency} from "../../redux/actions/currencyActions";
 import LanguageCurrencyChanger from "./sub-components/LanguageCurrencyChanger";
+
 const HeaderTop = ({
   strings,
   currency,

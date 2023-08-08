@@ -1,15 +1,16 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
+import React, {Fragment} from "react";
+import {Link} from "react-router-dom";
+import {useToasts} from "react-toast-notifications";
 import MetaTags from "react-meta-tags";
-import { connect } from "react-redux";
-import { addToCart } from "../redux/actions/cartActions";
-import { deleteFromCompare } from "../redux/actions/compareActions";
-import { getDiscountPrice } from "../helpers/product";
+import {connect} from "react-redux";
+import {addToCart} from "../redux/actions/cartActions";
+import {deleteFromCompare} from "../redux/actions/compareActions";
+import {getDiscountPrice} from "../helpers/product";
 import LayoutOne from "../layouts/LayoutOne";
 import Rating from "../components/product/sub-components/ProductRating";
-import { multilanguage } from "redux-multilanguage";
+import {multilanguage} from "redux-multilanguage";
+
 const Compare = ({
   strings,
   location,

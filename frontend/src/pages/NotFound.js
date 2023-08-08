@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, {Fragment} from "react";
+import {Link} from "react-router-dom";
 import MetaTags from "react-meta-tags";
 import LayoutOne from "../layouts/LayoutOne";
-import { multilanguage } from "redux-multilanguage";
+import {multilanguage} from "redux-multilanguage";
+
 const NotFound = ({ strings, location }) => {
   return (
     <Fragment>

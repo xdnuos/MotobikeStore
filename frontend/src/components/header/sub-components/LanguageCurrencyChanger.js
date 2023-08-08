@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { changeLanguage, multilanguage } from "redux-multilanguage";
+import {changeLanguage, multilanguage} from "redux-multilanguage";
 
 const LanguageCurrencyChanger = ({
   strings,

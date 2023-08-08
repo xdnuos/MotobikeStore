@@ -1,5 +1,6 @@
 import React from "react";
-import { multilanguage } from "redux-multilanguage";
+import {multilanguage} from "redux-multilanguage";
+
 const ShopSearch = ({ strings }) => {
   return (
     <div className="sidebar-widget">

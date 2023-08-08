@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { setActiveLayout } from "../../helpers/product";
-import { multilanguage } from "redux-multilanguage";
+import {setActiveLayout} from "../../helpers/product";
+import {multilanguage} from "redux-multilanguage";
 
 const ShopTopAction = ({
   strings,

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import MetaTags from "react-meta-tags";
 import LayoutOne from "../layouts/LayoutOne";
 import SectionTitleWithText from "../components/section-title/SectionTitleWithText";

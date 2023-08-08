@@ -1,8 +1,6 @@
 package com.example.motobikestore.mapper;
 
-import com.example.motobikestore.DTO.ManufacturerDTO;
 import com.example.motobikestore.DTO.TagDTO;
-import com.example.motobikestore.entity.Manufacturer;
 import com.example.motobikestore.entity.Tag;
 import org.mapstruct.*;
 
@@ -10,8 +8,8 @@ import org.mapstruct.*;
 public interface TagMapper {
     Tag toEntity(TagDTO tagDTO);
 
-    TagDTO toDto(Tag manufacturer);
+    TagDTO toDto(Tag tag);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Tag partialUpdate(TagDTO tagDTO, @MappingTarget Tag manufacturer);
+    Tag partialUpdate(TagDTO tagDTO, @MappingTarget Tag tag);
 }

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from "react";
+import {Link} from "react-router-dom";
 import ModalVideo from "react-modal-video";
 
 const VideoPopup = ({ spaceBottomClass }) => {

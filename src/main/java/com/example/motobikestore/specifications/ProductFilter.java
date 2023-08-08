@@ -1,6 +1,5 @@
 package com.example.motobikestore.specifications;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

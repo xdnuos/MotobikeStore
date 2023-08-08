@@ -3,7 +3,6 @@ package com.example.motobikestore.controller;
 import com.example.motobikestore.DTO.ManufacturerDTO;
 import com.example.motobikestore.entity.Manufacturer;
 import com.example.motobikestore.exception.InputFieldException;
-import com.example.motobikestore.mapper.ManufacturerMapper;
 import com.example.motobikestore.service.ManufacturerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 import static com.example.motobikestore.constants.PathConstants.*;

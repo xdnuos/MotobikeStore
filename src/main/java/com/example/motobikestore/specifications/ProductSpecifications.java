@@ -1,14 +1,12 @@
 package com.example.motobikestore.specifications;
 
-import com.example.motobikestore.entity.Category;
-import com.example.motobikestore.entity.Manufacturer;
 import com.example.motobikestore.entity.Product;
-import com.example.motobikestore.entity.Tag;
-import jakarta.persistence.criteria.*;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 

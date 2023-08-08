@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useEffect, useState } from "react";
-import { LightgalleryProvider, LightgalleryItem } from "react-lightgallery";
+import React, {Fragment, useEffect, useState} from "react";
+import {LightgalleryItem, LightgalleryProvider} from "react-lightgallery";
 import Swiper from "react-id-swiper";
 
 const ProductImageGalleryLeftThumb = ({ product, thumbPosition }) => {

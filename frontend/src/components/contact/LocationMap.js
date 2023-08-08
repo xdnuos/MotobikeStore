@@ -1,6 +1,6 @@
 import React from "react";
-import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
-import { PropTypes } from "prop-types";
+import {GoogleApiWrapper, Map, Marker} from "google-maps-react";
+import {PropTypes} from "prop-types";
 
 const FooterMap = props => {
   const mapStyles = {

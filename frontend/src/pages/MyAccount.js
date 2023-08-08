@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, {Fragment} from "react";
 import MetaTags from "react-meta-tags";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import LayoutOne from "../layouts/LayoutOne";
-import { multilanguage } from "redux-multilanguage";
+import {multilanguage} from "redux-multilanguage";
 // need fix
 const MyAccount = ({ strings }) => {
   return (

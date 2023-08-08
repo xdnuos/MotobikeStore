@@ -28,7 +28,7 @@ public class CartProduct implements Serializable {
 
     private int quantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name="userID")
     private Users users;
 }

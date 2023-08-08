@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 import MenuCart from "./sub-components/MenuCart";
-import { deleteFromCart } from "../../redux/actions/cartActions";
-import { multilanguage } from "redux-multilanguage";
+import {deleteFromCart} from "../../redux/actions/cartActions";
+import {multilanguage} from "redux-multilanguage";
+
 const IconGroup = ({
   strings,
   currency,

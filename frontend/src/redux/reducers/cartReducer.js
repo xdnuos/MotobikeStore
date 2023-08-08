@@ -1,10 +1,5 @@
 import uuid from "uuid/v4";
-import {
-  ADD_TO_CART,
-  DECREASE_QUANTITY,
-  DELETE_FROM_CART,
-  DELETE_ALL_FROM_CART
-} from "../actions/cartActions";
+import {ADD_TO_CART, DECREASE_QUANTITY, DELETE_ALL_FROM_CART, DELETE_FROM_CART} from "../actions/cartActions";
 
 const initState = [];
 

@@ -18,7 +18,6 @@ public class ErrorMessage {
     public static final String PRODUCT_NOT_FOUND = "Product not found.";
     public static final String PERFUME_NOT_FOUND = "Perfume not found.";
     public static final String USER_NOT_FOUND = "User not found.";
-
     public static final String EMPTY_CONTENT = "Content cannot be blank";
     public static final String EMPTY_FIRST_NAME = "First name cannot be empty";
     public static final String EMPTY_LAST_NAME = "Last name cannot be empty";

@@ -95,7 +95,7 @@ public class Product implements Serializable {
     @JsonManagedReference
     private List<OrderItem> oderItem= new ArrayList<>();
 
-    @OneToMany(mappedBy = "product",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonBackReference
     private Set<Images> imagesList= new HashSet<>();
 

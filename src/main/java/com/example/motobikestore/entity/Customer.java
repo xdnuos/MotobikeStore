@@ -26,7 +26,7 @@ public class Customer implements Serializable {
     @Column(nullable = false, length = 15,unique=true)
     private String phone;
 
-    @NotNull(message="Gender cannot be null")
+//    @NotNull(message="Gender cannot be null")
     private Sex sex;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

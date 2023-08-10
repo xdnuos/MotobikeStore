@@ -1,6 +1,7 @@
 package com.example.motobikestore.entity;
 
 import com.example.motobikestore.enums.OrderStatus;
+import com.example.motobikestore.enums.Payment;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -30,6 +31,7 @@ public class Orders implements Serializable {
     private BigDecimal total;
     @Column
     private LocalDateTime orderTime;
+    private Payment payment;
     @Column
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -47,11 +49,12 @@ public class Orders implements Serializable {
 
     @Transient
     public BigDecimal getTotalOrderPrice() {
-        BigDecimal bigDecimalValue = new BigDecimal("0");
+        BigDecimal bigDecimalValue = BigDecimal.ZERO;
         List<OrderItem> orderItems = getOrderItems();
         for (OrderItem ot : orderItems) {
-            bigDecimalValue.add(ot.getTotalPrice());
+            bigDecimalValue = bigDecimalValue.add(ot.getTotalPrice());
         }
+        System.out.println(bigDecimalValue);
         return bigDecimalValue;
     }
     @Transient

@@ -27,7 +27,7 @@ public class Users implements Serializable {
     @Column
     private String password;
 
-    @NotBlank(message="First name cannot be blank")
+//    @NotBlank(message="First name cannot be blank")
     @Column(name = "firstName", length = 50)
     private String firstName;
 

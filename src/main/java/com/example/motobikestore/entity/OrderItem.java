@@ -22,7 +22,8 @@ public class OrderItem implements Serializable {
 
     @Transient
     public BigDecimal getTotalPrice() {
-        return this.product.getPrice().multiply(BigDecimal.valueOf(getQuantity()));
+
+        return product.getPrice().multiply(BigDecimal.valueOf(getQuantity()));
     }
 
     private int quantity;

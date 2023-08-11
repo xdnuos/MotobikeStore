@@ -28,13 +28,16 @@ public class PathConstants {
     public static final String IMAGEURL = "localhost:5000//image/";
     public static final String SAVEIMAGEPATH = "D:/images/";
     public static final String ADD = "/add";
+    public static final String ADD_ADMIN = "/add/admin";
     public static final String DELETE = "/delete";
     public static final String EDIT = "/edit";
+    public static final String EDIT_ADMIN = "/edit/admin";
     public static final String EDIT_BY_ID = "/edit/{id}";
     public static final String UPDATE_STATE_BY_ID = "/updateState/{id}";
 
 
     public static final String GET = "/get";
+    public static final String GET_ADMIN = "/get/admin";
 
     public static final String GET_BY_ID = "/get/{id}";
     public static final String GET_ALL = "/getall";

@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  db:
+    image: "postgres:15.3"
+    container_name: db
+    restart: always
+
+    ports:
+      - 5432:5432
+
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data
+
+    environment:
+      - POSTGRES_DB=ecommerce
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+
+
+  ecommerce:
+    build: ./
+    container_name: ecommerce
+    environment:
+      - DB_SERVER:db
+      - POSTGRES_DB=ecommerce
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 8443:8443 # Forward the exposed port 8080 on the container to port 8080 on the host machine
+
+    depends_on:
+      - db
+
+
+
+volumes:
+  postgres_data:
+
+
+
+
+
+
+
+

@@ -79,7 +79,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public String registerCustomer(CustomerRequest customerRequest, String password2) {
+    public String registerCustomer(CustomerRequest customerRequest) {
 //        String url = String.format(captchaUrl, secret, captcha);
 //        restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponse.class);
         if (userRepository.findByEmail(customerRequest.getEmail()).isPresent()) {
@@ -88,9 +88,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (customerRepository.findByPhone(customerRequest.getPhone()).isPresent()) {
             throw new EmailException(PHONE_IN_USE);
         }
-        if (customerRequest.getPassword() != null && !customerRequest.getPassword().equals(password2)) {
-            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
-        }
+//        if (customerRequest.getPassword() != null && !customerRequest.getPassword().equals(password2)) {
+//            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
+//        }
 
         Users users = usersRequestMapper.toEntity(customerRequest);
         Customer customer = customerRequestMapper.toEntity(customerRequest);
@@ -99,7 +99,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         users.setActive(false);
         users.setRoles(Collections.singleton(Role.CUSTOMER));
 //        user.setProvider(AuthProvider.LOCAL);
-        users.setActivationCode(ActivationCodeGenerator.generateActivationCode());
+        users.setActivationCode(ActivationCodeGenerator.generateRandomString());
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         users.setCreateDate(LocalDateTime.now());
         customer.setUsers(users);
@@ -111,7 +111,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         address.setPhone(customerRequest.getPhone());
         address.setCustomer(customer);
         addressRepository.save(address);
-
+        System.out.println(users.getActivationCode());
 //        customMailSender.sendEmail(users, "Activation code", "registration-template", "registrationUrl", "/activate/" + users.getActivationCode());
         return "User successfully registered.";
     }
@@ -205,9 +205,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public String activateUser(String email,String code) {
-        Users users = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
+    public String activateUser(String code) {
+        Users users = userRepository.findByActivationCode(code)
+                .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
         try {
             if (users.getActivationCode().equals(code)){
                 users.setActivationCode(null);

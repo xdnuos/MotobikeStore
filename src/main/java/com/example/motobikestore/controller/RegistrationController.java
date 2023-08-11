@@ -11,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.motobikestore.constants.PathConstants.ACTIVATE_CODE;
-import static com.example.motobikestore.constants.PathConstants.API_V1_REGISTRATION;
+import static com.example.motobikestore.constants.PathConstants.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,11 +25,11 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        return ResponseEntity.ok(authenticationService.registerCustomer(customerRequest,customerRequest.getPassword2()));
+        return ResponseEntity.ok(authenticationService.registerCustomer(customerRequest));
     }
 
     @GetMapping(ACTIVATE_CODE)
-    public ResponseEntity<String> activateEmailCode(@RequestParam String email,@RequestParam String code) {
-        return ResponseEntity.ok(authenticationService.activateUser(email,code));
+    public ResponseEntity<String> activateEmailCode(@PathVariable String code) {
+        return ResponseEntity.ok(authenticationService.activateUser(code));
     }
 }

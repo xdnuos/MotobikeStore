@@ -57,7 +57,7 @@ public class PathConstants {
     public static final String RESET = "/reset";
     public static final String CODE = "/{code}";
     public static final String RESET_CODE = RESET + CODE;
-    public static final String ACTIVATE_CODE = "/activate";
+    public static final String ACTIVATE_CODE = "/activate/{code}";
     public static final String EDIT_PASSWORD = "/edit/password";
 
     public static final String ORDER_ID = "/{orderId}";

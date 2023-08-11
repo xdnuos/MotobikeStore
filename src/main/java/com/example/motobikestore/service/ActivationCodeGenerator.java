@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 public class ActivationCodeGenerator {
     private static final int CODE_LENGTH = 6;
 
-    public static String generateActivationCode() {
+    public static String generateNumberCode() {
         SecureRandom random = new SecureRandom();
 
         // Generate a random number between 100000 and 999999 (6 digits)
@@ -16,8 +16,22 @@ public class ActivationCodeGenerator {
         return String.valueOf(randomCode);
     }
 
+    private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    public static String generateRandomString() {
+        StringBuilder randomString = new StringBuilder();
+        SecureRandom secureRandom = new SecureRandom();
+
+        for (int i = 0; i < 24; i++) {
+            int randomIndex = secureRandom.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            randomString.append(randomChar);
+        }
+
+        return randomString.toString();
+    }
     public static void main(String[] args) {
-        String activationCode = generateActivationCode();
+        String activationCode = generateNumberCode();
         System.out.println("Activation Code: " + activationCode);
     }
 }

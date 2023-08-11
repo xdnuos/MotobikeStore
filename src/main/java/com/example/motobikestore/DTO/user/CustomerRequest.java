@@ -22,8 +22,6 @@ public class CustomerRequest extends UsersRequest {
     private Sex sex;
     @DateTimeFormat(pattern ="yyyy-MM-dd" )
     private LocalDate birth;
-
-    private String password2;
     private String address;
 
     public CustomerRequest() {

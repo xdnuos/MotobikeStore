@@ -112,7 +112,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         address.setCustomer(customer);
         addressRepository.save(address);
         System.out.println(users.getActivationCode());
-//        customMailSender.sendEmail(users, "Activation code", "registration-template", "registrationUrl", "/activate/" + users.getActivationCode());
+        customMailSender.sendEmail(users, "Activation code", "registration-template", "registrationUrl", "/activate/" + users.getActivationCode());
         return "User successfully registered.";
     }
 

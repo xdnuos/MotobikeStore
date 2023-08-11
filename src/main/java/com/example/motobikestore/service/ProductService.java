@@ -155,6 +155,10 @@ public class ProductService {
         return productViewRepository.findAllToPage(pageable);
     }
 
+    public List<ProductView> findAllProductActive(){
+        List<ProductView> productViews = productViewRepository.findAllByActiveIsTrue();
+        return productViews;
+    }
     public List<ProductView> findAllProduct(){
         Iterable<ProductView> productViews = productViewRepository.findAll();
         return StreamSupport.stream(productViews.spliterator(), false)

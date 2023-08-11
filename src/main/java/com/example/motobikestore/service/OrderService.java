@@ -88,7 +88,7 @@ public class OrderService {
     }
     @Transactional
     public String createOrderForCustomer(OrderRequestCustomer orderRequestCustomer){
-        Customer customer = customerRepository.findById(orderRequestCustomer.getCustomerID())
+        Customer customer = customerRepository.findByUsers_UserID(orderRequestCustomer.getUserID())
                     .orElseThrow(() -> new ApiRequestException("Customer not found", HttpStatus.NOT_FOUND));
         Address address = addressRepository.findById(orderRequestCustomer.getAddressID())
                 .orElseThrow(() -> new ApiRequestException("Address not found", HttpStatus.NOT_FOUND));

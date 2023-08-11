@@ -33,6 +33,10 @@ public class ProductController {
 //  http://localhost:8080/api/v1/products/get
     @GetMapping(GET)
     public List<ProductView> getProductList(){
+        return productService.findAllProductActive();
+    }
+    @GetMapping(GET_ADMIN)
+    public List<ProductView> getProductListForAdmin(){
         return productService.findAllProduct();
     }
     @GetMapping(GET_BY_ID)

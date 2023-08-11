@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
@@ -20,7 +21,6 @@ public interface ProductViewRepository extends EntityViewRepository<ProductView,
 
     Optional<ProductView> findByProductIDAndActiveIsTrue(Long id);
     Optional<ProductView> findBySku(String sku);
-
     Optional<ProductView> findBySkuAndActiveIsTrue(String sku);
-
+    List<ProductView> findAllByActiveIsTrue();
 }

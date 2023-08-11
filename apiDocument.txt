@@ -1,0 +1,175 @@
+#Register --------------------------------------------------------------------------
+Đăng kí tài khoản ->
+POST http://localhost:8080/api/v1/registration
+Request {
+    "email" : "admin@gmail.com",
+    "password":"123456",
+    "phone":"0565790288",
+    "birth":"2001-11-21",
+    "address":"JSON parse error",
+    "sex":"Female",
+    "firstName":"Hoang",
+    "lastName":"Hung"
+}
+Response: User successfully registered.
+Error:
+- Email is already in use.
+- Phone number is already in use.
+Note: sau khi đăng kí tài khoản sẽ có email kích hoạt tài khoản
+
+Kích hoạt tài khoản ->
+GET: http://localhost:8080/api/v1/registration/activate/{code}
+Response: User successfully activated.
+Error: Error when activated user
+Note: Code active tài khoản ở link gửi qua email http://localhost:3000/activate/{code}
+
+# Forgot password --------------------------------------------------------------------------
+Quên mk ->
+GET: http://localhost:8080/api/v1/auth/forgot/{email}
+Response: Reset password code is send to your E-mail
+Error: Email not found
+Note: Sau khi GET thì sẽ có email được gửi
+
+Đổi mk ->
+POST: http://localhost:8080/api/v1/auth/reset
+{
+    "code" : "Code reset mật khẩu",
+    "password": "Mật khẩu"
+}
+Response: Password successfully changed!
+Error: Reset Code cannot be empty.
+Note: Code reset mật khẩu lấy ở link gửi qua email http://localhost:3000/reset/{code}
+
+#Change Password --------------------------------------------------------------------------
+-> chưa test
+PHẢI CÓ HEADER Authentication
+PUT: http://localhost:8080/api/v1/auth/edit/password
+{
+    "email":"Email",
+    "password":"Mật khẩu mới"
+}
+Respone: Password successfully changed!
+Error: Email not found
+
+#Categories --------------------------------------------------------------------------
+Lấy danh sách categories ->
+GET: http://localhost:8080/api/v1/categories/get
+Response:
+{
+    "categoryID": 158,
+    "name": "Bạc đạn - Gon - Sim - Phốt"
+}
+
+#Manufacturer --------------------------------------------------------------------------
+Lấy danh sách manufacturer ->
+GET: http://localhost:8080/api/v1/manufacturer/get
+Response:
+{
+    "manufacturerID": 352,
+    "name": "Honda"
+}
+
+#Tags --------------------------------------------------------------------------
+Lấy danh sách Tags ->
+GET: http://localhost:8080/api/v1/tag/get
+Response:
+{
+    "tagID": 52,
+    "name": "Honda"
+}
+
+#Product --------------------------------------------------------------------------
+Lấy danh sách Product (không bị disable) ->
+GET: http://localhost:8080/api/v1/products/get
+Response:
+{
+    "productID": 2655,
+    "active": true,
+    "arrival": null,
+    "categories": [
+        "Phụ kiện"
+    ],
+    "fullDescription": "- Kính chiếu hậu Mview 009 có góc quan sát rộng cho bạn tầm nhìn tốt, rõ ràng hoạt động phía sau\r\n- Kính Mview 009 với chất liệu kim loại nhôm CNC cao cấp, bền đẹp, cao cấp hơn nhiều so với vật liệu nhựa bình thường\r\n- Kính chiếu hậu Mview 009 gắn được cho tất cả các loại xe máy. Có 2 màu đen hoặc bạc.",
+    "images": [
+        "32195020221108_4917a5759f39e0e93b659b6b67257697_1667893824.jpg",
+        "29480520221108_df2265b0fdfe3ddbc37b642f44861a7e_1667893824.jpg",
+        "16921420221114_43b518844ef775022dc41038f0be594c_1668416749.jpg"
+    ],
+    "manufacturer": null,
+    "name": "Kính chiếu hậu Mview 009",
+    "price": 300000.00,
+    "rating": 5.0,
+    "saleCount": 0,
+    "shortDescription": "Kính chiếu hậu Mview 009 có góc quan sát rộng cho bạn tầm nhìn tốt, rõ ràng hoạt động phía sau",
+    "sku": "070874",
+    "stock": 0,
+    "tags": [
+        "Yamaha",
+        "Honda",
+        "Suzuki"
+    ]
+}
+
+#Cart --------------------------------------------------------------------------
+Lấy cart theo id ->
+GET: http://localhost:8080/api/v1/carts/get/{id}
+
+Thêm item vào cart ->
+POST: http://localhost:8080/api/v1/carts/add
+Request {
+    "productID":"ID sản phẩm",
+    "quantity":"Số lượng"
+}
+
+Thêm sửa số lượng trong cart ->
+PUT: http://localhost:8080/api/v1/carts/edit
+Request {
+    "productID":"ID sản phẩm",
+    "quantity":"Số lượng"
+}
+
+Xóa item khỏi cart ->
+DELETE: http://localhost:8080/api/v1/carts/delete/{id}
+
+#Order --------------------------------------------------------------------------
+Lấy danh sách Order theo UserID ->
+GET: http://localhost:8080/api/v1/order/get/{id}
+Response:
+{
+    "orderID": 252,
+    "address": null,
+    "customerID": "2eabc6be-f919-4a67-a8f3-a331fa6d6a74",
+    "fullname": "Hoang Hung",
+    "note": null,
+    "orderItems": [
+        {
+            "orderItemID": 302,
+            "price": 220000.00,
+            "product": {
+                "productID": 2654,
+                "name": "Bao tay CRG viền nhôm"
+            },
+            "quantity": 1
+        }
+    ],
+    "orderStatus": "SUCCESS",
+    "orderTime": "2023-08-10T10:45:06.144526",
+    "payment": "LIVE",
+    "phone": "0865307743",
+    "staffUsers": {
+        "userID": "67829fb7-02eb-4d5e-b3b3-48207e3226d2",
+        "active": true,
+        "firstName": "Hoang",
+        "lastName": "Hung"
+    },
+    "total": 0.00
+}
+
+Tạo order ->
+POST: http://localhost:8080/api/v1/order/add
+Request {
+    "cartProductIDs" : "Danh sách các item trong cart",
+    "userID":"User ID",
+    "addressID":"ID của address",
+    "payment":"Hình thức thanh toán -> COD,MOMO,ATM"
+}

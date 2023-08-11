@@ -54,7 +54,7 @@ public class AuthenticationController {
 
     @PutMapping(EDIT_PASSWORD)
     public ResponseEntity<String> updateUserPassword(@AuthenticationPrincipal UserPrincipal user,
-                                                     @Valid @RequestBody PasswordResetRequest passwordReset,
+                                                     @RequestBody PasswordResetRequest passwordReset,
                                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);

@@ -17,7 +17,7 @@ import java.util.UUID;
 public class OrderRequestCustomer {
     @NotNull
     List<Long> cartProductIDs;
-    UUID customerID;
+    UUID userID;
     Long addressID;
     Payment payment;
 }

@@ -176,6 +176,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 if(checkValidCode(users.getResetPassCodeCreate(),LocalDateTime.now())){
                     users.setPassword(passwordEncoder.encode(password));
                     users.setPasswordResetCode(null);
+//                    users.setResetPassCodeCreate(null); bo di de check lan cuoi thay doi mat khaua
                     userRepository.save(users);
                     return "Password successfully changed!";
                 }

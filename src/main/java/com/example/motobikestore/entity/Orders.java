@@ -18,7 +18,6 @@ public class Orders implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderID;
-
     @Column
     private String fullname;
     @Column

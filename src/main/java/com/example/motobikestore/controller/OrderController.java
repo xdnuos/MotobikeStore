@@ -2,6 +2,7 @@ package com.example.motobikestore.controller;
 
 import com.example.motobikestore.DTO.ConfirmOrderDTO;
 import com.example.motobikestore.DTO.OrderRequestAdmin;
+import com.example.motobikestore.DTO.OrderRequestCustomer;
 import com.example.motobikestore.service.OrderService;
 import com.example.motobikestore.view.OrdersAdminView;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,17 @@ public class OrderController {
     public Iterable<OrdersAdminView> getOrderAdmin(){
         return orderService.getOrderAdmin();
     }
+    @GetMapping(GET_BY_ID)
+    public Iterable<OrdersAdminView> getOrderByCustomer(@PathVariable(name = "id") UUID customerID){
+        return orderService.getOrderCustomer(customerID);
+    }
     @PostMapping(ADD_ADMIN)
-    public ResponseEntity<String> addOrderAdmin(@RequestBody OrderRequestAdmin orderRequestAdmin){
+    public ResponseEntity<String> addOrderForAdmin(@RequestBody OrderRequestAdmin orderRequestAdmin){
         return ResponseEntity.ok(orderService.createOrderAdmin(orderRequestAdmin));
+    }
+    @PostMapping(ADD)
+    public ResponseEntity<String> addOrderForUser(@RequestBody OrderRequestCustomer orderRequestCustomer){
+        return ResponseEntity.ok(orderService.createOrderForCustomer(orderRequestCustomer));
     }
     @PutMapping(EDIT_ADMIN+"/confirmOrder")
     public ResponseEntity<String> confirmOrder(@RequestBody ConfirmOrderDTO confirmOrderDTO){

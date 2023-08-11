@@ -1,5 +1,6 @@
 package com.example.motobikestore.DTO;
 
+import com.example.motobikestore.enums.Payment;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +14,10 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderRequestAdmin {
+public class OrderRequestCustomer {
     @NotNull
     List<Long> cartProductIDs;
-    UUID UserID;
     UUID customerID;
-    String firstName;
-    String lastName;
-    @NotNull
-    String phone;
+    Long addressID;
+    Payment payment;
 }

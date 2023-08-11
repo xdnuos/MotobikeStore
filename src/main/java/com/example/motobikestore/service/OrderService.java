@@ -2,15 +2,16 @@ package com.example.motobikestore.service;
 
 import com.example.motobikestore.DTO.ConfirmOrderDTO;
 import com.example.motobikestore.DTO.OrderRequestAdmin;
+import com.example.motobikestore.DTO.OrderRequestCustomer;
 import com.example.motobikestore.entity.*;
 import com.example.motobikestore.enums.OrderStatus;
 import com.example.motobikestore.enums.Payment;
 import com.example.motobikestore.enums.Role;
 import com.example.motobikestore.exception.ApiRequestException;
 import com.example.motobikestore.repository.*;
-import com.example.motobikestore.repository.blaze.OrderViewRepository;
+import com.example.motobikestore.repository.blaze.OrderAdminViewRepository;
+import com.example.motobikestore.repository.blaze.OrderCustomerViewRepository;
 import com.example.motobikestore.view.OrdersAdminView;
-import jakarta.persistence.criteria.Order;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,9 @@ public class OrderService {
     private final StaffRepository staffRepository;
     private final OrdersRepository ordersRepository;
     private final ProductRepository productRepository;
-    private final OrderViewRepository orderViewRepository;
+    private final OrderAdminViewRepository orderAdminViewRepository;
+    private final AddressRepository addressRepository;
+    private final OrderCustomerViewRepository orderCustomerViewRepository;
 
     @Transactional
     public String createOrderAdmin(OrderRequestAdmin orderRequestAdmin){
@@ -57,9 +60,10 @@ public class OrderService {
             customer.setUsers(users);
             customerRepository.save(customer);
         }
+        Orders orders = new Orders();
+
         List<CartProduct> cartProducts = cartProductRepository.findAllById(orderRequestAdmin.getCartProductIDs());
         List<OrderItem> orderItems = new ArrayList<>();
-        Orders orders = new Orders();
         cartProducts.forEach(cartProduct -> {
             OrderItem orderItem =  new OrderItem();
             orderItem.setPrice(cartProduct.getProduct().getPrice());
@@ -82,6 +86,35 @@ public class OrderService {
         ordersRepository.save(orders);
         return "Order success";
     }
+    @Transactional
+    public String createOrderForCustomer(OrderRequestCustomer orderRequestCustomer){
+        Customer customer = customerRepository.findById(orderRequestCustomer.getCustomerID())
+                    .orElseThrow(() -> new ApiRequestException("Customer not found", HttpStatus.NOT_FOUND));
+        Address address = addressRepository.findById(orderRequestCustomer.getAddressID())
+                .orElseThrow(() -> new ApiRequestException("Address not found", HttpStatus.NOT_FOUND));
+        Orders orders = new Orders();
+        List<CartProduct> cartProducts = cartProductRepository.findAllById(orderRequestCustomer.getCartProductIDs());
+        List<OrderItem> orderItems = new ArrayList<>();
+        cartProducts.forEach(cartProduct -> {
+            OrderItem orderItem =  new OrderItem();
+            orderItem.setPrice(cartProduct.getProduct().getPrice());
+            orderItem.setProduct(cartProduct.getProduct());
+            orderItem.setQuantity(cartProduct.getQuantity());
+            orderItems.add(orderItem);
+            orderItem.setOrders(orders);
+        });
+        orders.setOrderItems(orderItems);
+        orders.setOrderTime(LocalDateTime.now());
+        orders.setTotal(orders.getTotalOrderPrice());
+        orders.setPhone(address.getPhone());
+        orders.setFullname(address.getFullname());
+        orders.setCustomer(customer);
+        orders.setOrderStatus(OrderStatus.PENDING);
+        orders.setPayment(orderRequestCustomer.getPayment());
+        cartProductRepository.deleteAll(cartProducts);
+        ordersRepository.save(orders);
+        return "Order success";
+    }
 
     @Transactional
     private void reduceProductNumber(Product product,Integer quantity){
@@ -95,10 +128,13 @@ public class OrderService {
     }
 
     public List<OrdersAdminView> getOrderByAdmin(UUID staffID){
-        return orderViewRepository.findAllByStaffStaffID(staffID);
+        return orderAdminViewRepository.findAllByStaffStaffID(staffID);
     }
     public Iterable<OrdersAdminView> getOrderAdmin(){
-        return orderViewRepository.findAll();
+        return orderAdminViewRepository.findAll();
+    }
+    public Iterable<OrdersAdminView> getOrderCustomer(UUID userID){
+        return orderCustomerViewRepository.findAllByCustomer_Users_UserID(userID);
     }
 
     @Transactional
@@ -110,7 +146,12 @@ public class OrderService {
         }
         Staff staff = staffRepository.findByUsers_UserID(confirmOrderDTO.getUserID())
                 .orElseThrow(()-> new ApiRequestException("Staff not found", HttpStatus.NOT_FOUND));
+//        giam so luong mat hang trong kho
+        orders.getOrderItems().forEach(orderItem -> {
+            reduceProductNumber(orderItem.getProduct(),orderItem.getQuantity());
+        });
         orders.setStaff(staff);
+        orders.setOrderStatus(OrderStatus.SUCCESS);
         ordersRepository.save(orders);
         return "Order confirm succesfully";
     }

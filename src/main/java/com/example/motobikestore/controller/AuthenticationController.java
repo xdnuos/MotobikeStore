@@ -49,7 +49,7 @@ public class AuthenticationController {
 
     @PostMapping(RESET)
     public ResponseEntity<String> passwordReset(@RequestBody PasswordResetRequest passwordReset) {
-        return ResponseEntity.ok(authenticationService.passwordReset(passwordReset.getEmail(), passwordReset.getPassword(), passwordReset.getPassword2(),passwordReset.getCode()));
+        return ResponseEntity.ok(authenticationService.passwordReset(passwordReset.getPassword(),passwordReset.getCode()));
     }
 
     @PutMapping(EDIT_PASSWORD)
@@ -59,7 +59,7 @@ public class AuthenticationController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(authenticationService.changePassword(passwordReset.getEmail(), passwordReset.getPassword(), passwordReset.getPassword2()));
+            return ResponseEntity.ok(authenticationService.changePassword(passwordReset.getEmail(), passwordReset.getPassword()));
         }
     }
 }

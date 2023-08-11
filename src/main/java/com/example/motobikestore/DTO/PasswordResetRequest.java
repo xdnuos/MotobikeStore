@@ -14,8 +14,5 @@ public class PasswordResetRequest {
     @Size(min = 6, max = 16, message = PASSWORD_CHARACTER_LENGTH)
     private String password;
 
-    @Size(min = 6, max = 16, message = PASSWORD2_CHARACTER_LENGTH)
-    private String password2;
-
     private String code;
 }

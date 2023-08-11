@@ -14,5 +14,7 @@ public interface UsersRepository extends JpaRepository<Users, UUID> {
     Optional<Users> findByActivationCode(String code);
     @Query("SELECT user.email FROM Users user WHERE user.passwordResetCode = :code")
     Optional<String> getEmailByPasswordResetCode(String code);
+
+    Optional<Users> findByPasswordResetCode(String code);
     Boolean existsByEmail(String email);
 }

@@ -150,7 +150,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String sendPasswordResetCode(String email) {
         Users users = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
-        users.setPasswordResetCode(UUID.randomUUID().toString());
+        users.setPasswordResetCode(ActivationCodeGenerator.generateRandomString());
         userRepository.save(users);
 
         customMailSender.sendEmail(users, "Password reset", "password-reset-template", "resetUrl", "/reset/" + users.getPasswordResetCode());
@@ -159,18 +159,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public String passwordReset(String email, String password, String password2,String code) {
-        if (StringUtils.isEmpty(password2)) {
-            throw new PasswordConfirmationException(EMPTY_PASSWORD_CONFIRMATION);
-        }
+    public String passwordReset(String password,String code) {
+//        if (StringUtils.isEmpty(password2)) {
+//            throw new PasswordConfirmationException(EMPTY_PASSWORD_CONFIRMATION);
+//        }
         if (StringUtils.isEmpty(code)) {
             throw new PasswordConfirmationException(EMPTY_PASSWORD_CODE);
         }
-        if (password != null && !password.equals(password2)) {
-            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
-        }
-        Users users = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
+//        if (password != null && !password.equals(password2)) {
+//            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
+//        }
+        Users users = userRepository.findByPasswordResetCode(code)
+                .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
         try {
             if(users.getPasswordResetCode().equals(code)){
                 if(checkValidCode(users.getResetPassCodeCreate(),LocalDateTime.now())){
@@ -188,13 +188,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
     @Override
     @Transactional
-    public String changePassword(String email, String password, String password2) {
-        if (StringUtils.isEmpty(password2)) {
-            throw new PasswordConfirmationException(EMPTY_PASSWORD_CONFIRMATION);
-        }
-        if (password != null && !password.equals(password2)) {
-            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
-        }
+    public String changePassword(String email, String password) {
+//        if (StringUtils.isEmpty(password2)) {
+//            throw new PasswordConfirmationException(EMPTY_PASSWORD_CONFIRMATION);
+//        }
+//        if (password != null && !password.equals(password2)) {
+//            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
+//        }
         Users users = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
         users.setPassword(passwordEncoder.encode(password));

@@ -20,6 +20,6 @@ public interface AuthenticationService {
 
     String sendPasswordResetCode(String email);
 
-    String passwordReset(String email, String password, String password2,String code);
-    String changePassword(String email, String password, String password2);
+    String passwordReset(String password,String code);
+    String changePassword(String email, String password);
 }

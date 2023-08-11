@@ -151,8 +151,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Users users = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
         users.setPasswordResetCode(ActivationCodeGenerator.generateRandomString());
+        users.setResetPassCodeCreate(LocalDateTime.now());
         userRepository.save(users);
-
         customMailSender.sendEmail(users, "Password reset", "password-reset-template", "resetUrl", "/reset/" + users.getPasswordResetCode());
         return "Reset password code is send to your E-mail";
     }

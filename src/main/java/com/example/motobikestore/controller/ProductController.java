@@ -2,6 +2,7 @@ package com.example.motobikestore.controller;
 
 import com.blazebit.persistence.spring.data.repository.KeysetPageable;
 import com.blazebit.persistence.spring.data.webmvc.KeysetConfig;
+import com.example.motobikestore.DTO.ProductSearch;
 import com.example.motobikestore.DTO.product.ProductRequest;
 import com.example.motobikestore.entity.Product;
 import com.example.motobikestore.exception.InputFieldException;
@@ -85,5 +86,10 @@ public class ProductController {
             throw new InputFieldException(bindingResult);
         }
         return ResponseEntity.ok(productService.editProduct(productRequest,id));
+    }
+
+    @GetMapping(SEARCH)
+    public List<ProductView> findProduct(@RequestParam String value){
+        return productService.productSearch(value);
     }
 }

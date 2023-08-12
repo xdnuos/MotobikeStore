@@ -23,4 +23,5 @@ public interface ProductViewRepository extends EntityViewRepository<ProductView,
     Optional<ProductView> findBySku(String sku);
     Optional<ProductView> findBySkuAndActiveIsTrue(String sku);
     List<ProductView> findAllByActiveIsTrue();
+    List<ProductView> findAllByActiveIsTrueAndNameIsContainingOrSkuIsContaining(String value,String value1);
 }

@@ -1,5 +1,6 @@
 package com.example.motobikestore.service;
 
+import com.example.motobikestore.DTO.ProductSearch;
 import com.example.motobikestore.DTO.product.ProductRequest;
 import com.example.motobikestore.entity.*;
 import com.example.motobikestore.exception.ApiRequestException;
@@ -38,7 +39,7 @@ public class ProductService {
     @Autowired
     ProductViewRepository productViewRepository;
     @Autowired
-    private ImageService imageService;
+    private CloudinaryService cloudinaryService;
     @Autowired
     private ProductRequestMapper productRequestMapper;
     @Autowired
@@ -61,7 +62,7 @@ public class ProductService {
         if(productRequest.getImageFiles() != null) {
             for (MultipartFile file : productRequest.getImageFiles()) {
                 Images image = new Images();
-                image.setImagePath(imageService.saveImage(file));
+                image.setImagePath(cloudinaryService.uploadImage(file));
                 image.setProduct(product);
                 imagesList.add(image);
             }
@@ -108,13 +109,14 @@ public class ProductService {
         Set<Images> images = product.getImagesList();
         images.forEach(image -> {
             image.setProduct(null);
+            cloudinaryService.deleteImage(image.getImagePath());
         });
-        imagesRepository.saveAll(images);
+        imagesRepository.deleteAll(images);
         if(productRequest.getImageFiles() != null) {
             Set<Images> imagesList = new HashSet<>();
             for (MultipartFile file : productRequest.getImageFiles()) {
                 Images image = new Images();
-                image.setImagePath(imageService.saveImage(file));
+                image.setImagePath(cloudinaryService.uploadImage(file));
                 image.setProduct(product);
                 imagesList.add(image);
             }
@@ -190,4 +192,10 @@ public class ProductService {
         productRepository.changeStatusByID(id,!isActive);
         return isActive ? SUCCESS_DISABLE_PRODUCT : SUCCESS_ENABLE_PRODUCT;
     }
+
+    public List<ProductView> productSearch(String search){
+        return productViewRepository.findAllByActiveIsTrueAndNameIsContainingOrSkuIsContaining(search,search);
+//        return null;
+    }
+
 }

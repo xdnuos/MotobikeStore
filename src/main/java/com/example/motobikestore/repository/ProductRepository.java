@@ -24,4 +24,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     void changeStatusByID(@Param("id") Long id,@Param("status") Boolean status);
     @Query("select p.active from Product p where p.productID=:id")
     Boolean getStatusByID(@Param("id") Long id);
+
+
 }

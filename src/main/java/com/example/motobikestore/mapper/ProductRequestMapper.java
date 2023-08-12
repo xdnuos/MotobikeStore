@@ -9,7 +9,7 @@ public interface ProductRequestMapper {
     @Mapping(target = "rating", ignore = true)
     @Mapping(target = "saleCount", ignore = true)
     @Mapping(target = "active", ignore = true)
-    @Mapping(target = "productStock", ignore = true)
+    @Mapping(target = "stock", ignore = true)
     @Mapping(target = "oderItem", ignore = true)
     @Mapping(source = "manufacturerID",target = "manufacturer", ignore = true)
     @Mapping(source = "categoryIDs",target = "categoryList", ignore = true)

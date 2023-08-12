@@ -85,12 +85,9 @@ public class Product implements Serializable {
     @JsonManagedReference
     private Set<Tag> tagList =new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     @JsonManagedReference
-    @JoinTable(name = "product_stock",
-            joinColumns = @JoinColumn(name = "productID"),
-            inverseJoinColumns = @JoinColumn(name = "stockID"))
-    private List<Stock> productStock= new ArrayList<>();
+    private List<StockItem> stockItem= new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItem> oderItem= new ArrayList<>();

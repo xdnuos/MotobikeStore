@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,9 +23,8 @@ public class Stock implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime createDate;
 
-    @ManyToMany(mappedBy = "productStock",fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private Collection<Product> productstock = new ArrayList<>();
+    @OneToMany(mappedBy="stock",  cascade=CascadeType.ALL)
+    private List<StockItem> stockItems = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "staffID")

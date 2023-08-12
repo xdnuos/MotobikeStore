@@ -111,7 +111,7 @@ Response:
 }
 
 #Cart --------------------------------------------------------------------------
-Lấy cart theo id ->
+Lấy cart theo userID ->
 GET: http://localhost:8080/api/v1/carts/get/{id}
 
 Thêm item vào cart ->
@@ -129,6 +129,7 @@ Request {
 }
 
 Xóa item khỏi cart ->
+ID: cartProductID
 DELETE: http://localhost:8080/api/v1/carts/delete/{id}
 
 #Order --------------------------------------------------------------------------

@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * DTO for {@link com.example.motobikestore.entity.Staff}
@@ -23,4 +24,5 @@ public class StaffRequest extends UsersRequest {
     private final Date birth;
     @Pattern(message = "Identity ID must be 9 or 12 digits", regexp = "\\d{9}|\\d{12}")
     private final String cccd;
+    private final UUID managerID;
 }

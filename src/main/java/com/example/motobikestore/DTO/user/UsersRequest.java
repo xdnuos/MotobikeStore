@@ -22,5 +22,5 @@ public class UsersRequest implements Serializable {
     private String firstName;
     @NotBlank(message = "Last name cannot be blank")
     private String lastName;
-    private Set<Role> roles;
+    private Role role;
 }

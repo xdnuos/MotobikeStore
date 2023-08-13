@@ -27,8 +27,8 @@ public class SuccessMessage {
 
     public static final String SUCCESS_UPDATE_USER ="User updated successfully";
     public static final String SUCCESS_ADD_USER ="User successfully added";
-    public static final String SUCCESS_DISABLE_USER ="User successfully disable";
-    public static final String SUCCESS_ENABLE_USER ="User successfully enable";
+    public static final String SUCCESS_DISABLE_USER ="Successfully locked";
+    public static final String SUCCESS_ENABLE_USER ="Successfully enable";
     public static final String EXIST_USER ="User already exist";
 
 }

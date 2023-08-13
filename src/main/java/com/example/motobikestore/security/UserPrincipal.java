@@ -14,13 +14,14 @@ public class UserPrincipal implements UserDetails {
     private final UUID uuid;
     private final String email;
     private final String password;
+    private final Boolean active;
     private final Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
     public static UserPrincipal create(Users users) {
         String userRole = users.getRoles().iterator().next().name();
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(userRole));
-        return new UserPrincipal(users.getUserID(), users.getEmail(), users.getPassword(), authorities);
+        return new UserPrincipal(users.getUserID(), users.getEmail(), users.getPassword(),users.isActive(), authorities);
     }
 
     public static UserPrincipal create(Users users, Map<String, Object> attributes) {
@@ -54,7 +55,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return active;
     }
 
     @Override

@@ -60,7 +60,7 @@ public class ProductController {
         return productService.getProductBySku(sku);
     }
     @PostMapping(GET)
-    public Page<ProductView> getAllProductWithFiler (@KeysetConfig(Product.class) KeysetPageable pageable,
+    public Page<ProductView> getAllProductToPageWithFiler (@KeysetConfig(Product.class) KeysetPageable pageable,
                                                      @RequestBody(required = false) ProductFilter productFilter){
         return productService.findAllToPageWithFilter(pageable,productFilter);
     }
@@ -91,5 +91,10 @@ public class ProductController {
     @GetMapping(SEARCH)
     public List<ProductView> findProduct(@RequestParam String value){
         return productService.productSearch(value);
+    }
+
+    @PostMapping(GET+"WithFilter")
+    public List<ProductView> getAllProductWithFiler (@RequestBody(required = false) ProductFilter productFilter){
+        return productService.findAllWithFilter(productFilter);
     }
 }

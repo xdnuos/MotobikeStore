@@ -109,7 +109,14 @@ Response:
         "Suzuki"
     ]
 }
-
+Lấy theo Cate,tag,manu ->
+POST: http://localhost:8080/api/v1/products/getWithFilter
+Request: {
+             "categoryNames":["Nhông số"],
+             "manufacturerName":"Trung Quốc",
+             "tagNames":["Exciter"]
+         }
+GET: http://localhost:8080/api/v1/carts/get/{id}
 #Cart --------------------------------------------------------------------------
 Lấy cart theo userID ->
 GET: http://localhost:8080/api/v1/carts/get/{id}

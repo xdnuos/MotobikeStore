@@ -7,6 +7,7 @@ import com.example.motobikestore.entity.Product;
 import com.example.motobikestore.enums.Arrival;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @EntityView(Product.class)
@@ -19,7 +20,7 @@ public interface ProductView {
     String getName();
 
     BigDecimal getPrice();
-
+    LocalDateTime getCreateAt();
     Boolean getActive();
 
     String getShortDescription();

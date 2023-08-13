@@ -13,6 +13,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +43,7 @@ public class Product implements Serializable {
     @Column(name = "price")
     @Min(value=1, message="Giá sản phẩm không hợp lệ")
     private BigDecimal price;
-
+    private LocalDateTime createAt;
     @Size(min = 20, max = 512, message="Độ dài mô tả từ 20-256 kí tự ")
     @Column(name = "shortDescription", length = 512)
     private String shortDescription;

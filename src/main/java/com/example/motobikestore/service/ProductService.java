@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -86,7 +87,7 @@ public class ProductService {
         product.setActive(true);
         product.setRating(0.0f);
         product.setSaleCount(0);
-
+        product.setCreateAt(LocalDateTime.now());
         productRepository.save(product);
         return SUCCESS_ADD_PRODUCT;
     }
@@ -198,4 +199,8 @@ public class ProductService {
 //        return null;
     }
 
+    public List<ProductView> findAllWithFilter(ProductFilter filters){
+        Specification<Product> specification = new ProductSpecifications(filters);
+        return productViewRepository.findAllWithFilter(specification);
+    }
 }

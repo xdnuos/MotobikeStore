@@ -1,5 +1,6 @@
 package com.example.motobikestore.entity;
 
+import com.example.motobikestore.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -22,6 +23,8 @@ public class Stock implements Serializable {
     @Column
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime createDate;
+
+    private Status status;
 
     @OneToMany(mappedBy="stock",  cascade=CascadeType.ALL)
     private List<StockItem> stockItems = new ArrayList<>();

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -25,7 +27,8 @@ public class UsersResponse implements Serializable {
     private String lastName;
     private String fullName;
     private Set<Role> roles;
-
+    private Boolean isActive;
+    private LocalDateTime createDate;
     public String getFullName() {
         return firstName+" "+lastName;
     }

@@ -19,9 +19,9 @@ public class ProductFilter {
     public ProductFilter() {
         super();
     }
-    public ProductFilter(String manufacturerName, List<String> tagNamess, List<String> categoryNames, BigDecimal minPrice, BigDecimal maxPrice) {
+    public ProductFilter(String manufacturerName, List<String> tagNames, List<String> categoryNames, BigDecimal minPrice, BigDecimal maxPrice) {
         this.manufacturerName = manufacturerName;
-        this.tagNames = tagNamess;
+        this.tagNames = tagNames;
         this.categoryNames = categoryNames;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;

@@ -6,6 +6,7 @@ import com.example.motobikestore.entity.Product;
 import com.example.motobikestore.view.ProductView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,4 +25,5 @@ public interface ProductViewRepository extends EntityViewRepository<ProductView,
     Optional<ProductView> findBySkuAndActiveIsTrue(String sku);
     List<ProductView> findAllByActiveIsTrue();
     List<ProductView> findAllByActiveIsTrueAndNameIsContainingOrSkuIsContaining(String value,String value1);
+    List<ProductView> findAllWithFilter(Specification<Product> filter);
 }

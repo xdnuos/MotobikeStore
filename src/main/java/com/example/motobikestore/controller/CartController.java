@@ -4,6 +4,8 @@ import com.example.motobikestore.DTO.CartProductEdit;
 import com.example.motobikestore.DTO.CartProductRequest;
 import com.example.motobikestore.DTO.CartProductResponse;
 import com.example.motobikestore.service.CartService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,10 +50,15 @@ public class CartController {
         return ResponseEntity.ok(data);
     }
 
-    @DeleteMapping(DELETE)
-    public ResponseEntity<Map<String, Object>> deleteItem2Cart(@RequestParam Long cartProductID,
-                                                  @RequestParam UUID userID){
-        String message = cartService.removeItem2Cart(cartProductID);
-        return getMapResponseEntity(message, userID);
+    @PutMapping(DELETE)
+    public ResponseEntity<Map<String, Object>> deleteItem2Cart(@RequestBody CartRemoveItem cartRemoveItem){
+        String message = cartService.removeItem2Cart(cartRemoveItem.getCartProductID());
+        return getMapResponseEntity(message, cartRemoveItem.getUserID());
+    }
+    @AllArgsConstructor
+    @Getter
+    private class CartRemoveItem {
+        Long cartProductID;
+        UUID userID;
     }
 }

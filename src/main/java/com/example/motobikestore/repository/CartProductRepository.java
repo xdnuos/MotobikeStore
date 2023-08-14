@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CartProductRepository extends JpaRepository<CartProduct, Long> {
-    @Query("from CartProduct c where c.product.productID =:id and c.users.email=:email")
-    CartProduct findByCartProductIDAndUsers(@Param("id") Long id,@Param("email") String email);
+    @Query("from CartProduct c where c.product.productID =:id and c.users.userID=:userID")
+    CartProduct findByCartProductIDAndUsers(@Param("id") Long id,@Param("userID") UUID userID);
 
     List<CartProduct> findAllByUsers_UserID(UUID userID);
 }

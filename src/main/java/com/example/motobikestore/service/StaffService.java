@@ -41,30 +41,33 @@ public class StaffService {
     public String addStaff(StaffRequest staffRequest){
         Staff mangager = staffRepository.findByUsers_UserID(staffRequest.getManagerID())
                 .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
-//        check role
-        if(!usersRepository.existsByEmail(staffRequest.getEmail())){
-            Set<Role> staffRoles = new HashSet<>();
-            staffRoles.add(staffRequest.getRole());
-            isManager(mangager.getUsers().getRoles(),staffRoles);
-
-            Staff staff = staffRequestMapper.toEntity(staffRequest);
-            Users users = new Users();
-            users.setEmail(staffRequest.getEmail());
-            users.setFirstName(staffRequest.getFirstName());
-            users.setLastName(staffRequest.getLastName());
-            users.setRoles(Collections.singleton(staffRequest.getRole()));
-            users.setActive(false);
-            users.setActivationCode(ActivationCodeGenerator.generateRandomString());
-            users.setCreateDate(LocalDateTime.now());
-            staff.setUsers(users);
-            staff.setManager(mangager);
-            users.setPassword(passwordEncoder.encode(staffRequest.getPassword()));
-            staffRepository.save(staff);
-
-            customMailSender.sendEmail(users, "Activation code", "registration-template", "registrationUrl", "/activate/" + users.getActivationCode());
-            return SUCCESS_ADD_USER;
+        if(usersRepository.existsByEmail(staffRequest.getEmail())){
+            throw  new ApiRequestException(EMAIL_IN_USE, HttpStatus.NOT_FOUND);
         }
-        return EMAIL_IN_USE;
+        Set<Role> staffRoles = new HashSet<>();
+        staffRoles.add(staffRequest.getRole());
+        isManager(mangager.getUsers().getRoles(),staffRoles);
+
+        Users users = new Users();
+        users.setEmail(staffRequest.getEmail());
+        users.setFirstName(staffRequest.getFirstName());
+        users.setLastName(staffRequest.getLastName());
+        users.setRoles(Collections.singleton(staffRequest.getRole()));
+        users.setActive(false);
+        users.setActivationCode(ActivationCodeGenerator.generateRandomString());
+        users.setCreateDate(LocalDateTime.now());
+        users.setPassword(passwordEncoder.encode("123456"));
+
+        Staff staff = new Staff();
+        staff.setBirth(staffRequest.getBirth());
+        staff.setCccd(staffRequest.getCccd());
+        staff.setSex(staffRequest.getSex());
+        staff.setPhone(staffRequest.getPhone());
+        staff.setUsers(users);
+        staff.setManager(mangager);
+        staffRepository.save(staff);
+        customMailSender.sendEmail(users, "Activation code", "registration-template", "registrationUrl", "/activate/" + users.getActivationCode());
+        return SUCCESS_ADD_USER;
     }
 
     private void isManager(Set<Role> manager,Set<Role> staff){

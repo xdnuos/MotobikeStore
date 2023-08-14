@@ -6,6 +6,8 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CustomerResponseMapper {
+
+    @Mapping(source = "avatarUrl", target = "users.avatar.imagePath")
     Customer toEntity(CustomerResponse customerResponse);
 
     CustomerResponse toDto(Customer customer);

@@ -1,6 +1,7 @@
 package com.example.motobikestore.entity;
 
 import com.example.motobikestore.enums.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -53,4 +54,7 @@ public class Users implements Serializable {
     public String getFullName(){
         return this.firstName + " " + this.lastName;
     }
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_image_id")
+    private Images avatar;
 }

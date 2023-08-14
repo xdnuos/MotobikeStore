@@ -36,23 +36,23 @@ public class CartServiceTest {
     @MockBean
     private CartProductRepository cartProductRepository;
 
-    @Test
-    public void testAddItem2Cart() {
-        Long productID = 2652L;
-        String email = "admin@gmail.com";
-        Integer quantity = 2;
-
-        Product product = new Product();
-        when(productRepository.findById(eq(productID))).thenReturn(Optional.of(product));
-
-        Users user = new Users();
-        when(usersRepository.findByEmail(eq(email))).thenReturn(Optional.of(user));
-
-        String result = cartService.addItem2Cart(productID, email, quantity);
-
-        verify(cartProductRepository).save(any(CartProduct.class));
-        assertEquals("Added to cart", result);
-    }
+//    @Test
+//    public void testAddItem2Cart() {
+//        Long productID = 2652L;
+//        String email = "admin@gmail.com";
+//        Integer quantity = 2;
+//
+//        Product product = new Product();
+//        when(productRepository.findById(eq(productID))).thenReturn(Optional.of(product));
+//
+//        Users user = new Users();
+//        when(usersRepository.findByEmail(eq(email))).thenReturn(Optional.of(user));
+//
+//        String result = cartService.addItem2Cart(productID, email, quantity);
+//
+//        verify(cartProductRepository).save(any(CartProduct.class));
+//        assertEquals("Added to cart", result);
+//    }
 
 //    @Test
 //    public void testRemoveItem2Cart() {

@@ -15,6 +15,8 @@ public interface StaffResponseMapper {
     @Mapping(source = "userID", target = "users.userID")
     @Mapping(source = "isActive", target = "users.active")
     @Mapping(source = "createDate", target = "users.createDate")
+    @Mapping(source = "avatarUrl", target = "users.avatar.imagePath")
+    @Mapping(source = "sex", target = "sex")
     Staff toEntity(StaffResponse staffResponse);
 
     @InheritInverseConfiguration(name = "toEntity")

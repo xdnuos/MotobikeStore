@@ -1,5 +1,6 @@
 package com.example.motobikestore.DTO.user;
 
+import com.example.motobikestore.entity.Images;
 import com.example.motobikestore.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -29,6 +30,7 @@ public class UsersResponse implements Serializable {
     private Set<Role> roles;
     private Boolean isActive;
     private LocalDateTime createDate;
+    private String avatarUrl;
     public String getFullName() {
         return firstName+" "+lastName;
     }

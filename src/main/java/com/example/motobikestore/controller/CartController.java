@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,13 +28,26 @@ public class CartController {
     }
 
     @PostMapping(ADD)
-    public ResponseEntity<String> addItem2Cart(@RequestBody CartProductRequest cartProductRequest){
-        return ResponseEntity.ok(cartService.addItem2Cart(cartProductRequest.getProductID(),cartProductRequest.getEmail(),cartProductRequest.getQuantity()));
+    public ResponseEntity<Map<String, Object>> addItem2Cart(@RequestBody CartProductRequest cartProductRequest){
+        String message = cartService.addItem2Cart(cartProductRequest.getProductID(),cartProductRequest.getUserID(),cartProductRequest.getQuantity());
+        return getMapResponseEntity(message, cartProductRequest.getUserID());
     }
     @PutMapping(EDIT)
-    public ResponseEntity<String> updateQuantity(@RequestBody CartProductEdit cartProductRequest){
-        return ResponseEntity.ok(cartService.updateQuantity(cartProductRequest.getCartProductID(),cartProductRequest.getQuantity()));
+    public ResponseEntity<Map<String, Object>> updateQuantity(@RequestBody CartProductEdit cartProductRequest){
+        String message = cartService.updateQuantity(cartProductRequest.getCartProductID(),cartProductRequest.getQuantity());
+        System.out.println("update cart ne");
+        System.out.println(cartProductRequest.getUserID());
+        return getMapResponseEntity(message, cartProductRequest.getUserID());
     }
+
+    private ResponseEntity<Map<String, Object>> getMapResponseEntity(String message, UUID userID) {
+        List<CartProductResponse> cartProductResponses = getCart(userID);
+        Map<String, Object> data = new HashMap<>();
+        data.put("message",message);
+        data.put("cart",cartProductResponses);
+        return ResponseEntity.ok(data);
+    }
+
     @DeleteMapping(DELETE+"/{id}")
     public ResponseEntity<String> deleteItem2Cart(@PathVariable Long id){
         return ResponseEntity.ok(cartService.removeItem2Cart(id));

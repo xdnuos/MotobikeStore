@@ -43,12 +43,12 @@ public class CartService {
         return cartProductRepository.findAllByUsers_UserID(uuid).stream().map(cartProductResponseMapper::toDto).collect(Collectors.toList());
     }
     @Transactional
-    public String addItem2Cart(Long productID, String email,Integer quantity){
+    public String addItem2Cart(Long productID, UUID userID,Integer quantity){
         Product product = productRepository.findById(productID)
                 .orElseThrow(() -> new ApiRequestException(PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
-        CartProduct cartProduct = cartProductRepository.findByCartProductIDAndUsers(productID,email);
+        CartProduct cartProduct = cartProductRepository.findByCartProductIDAndUsers(productID,userID);
         if (quantity>product.getStock()){
-            return "Invalid quantity";
+            throw new ApiRequestException("Invalid quantity", HttpStatus.NOT_ACCEPTABLE);
         }
         if(cartProduct!=null){
             quantity += cartProduct.getQuantity();
@@ -57,7 +57,7 @@ public class CartService {
             }
         }else {
             cartProduct = new CartProduct();
-            Users users = usersRepository.findByEmail(email)
+            Users users = usersRepository.findById(userID)
                     .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
             cartProduct.setProduct(product);
             cartProduct.setUsers(users);
@@ -85,7 +85,7 @@ public class CartService {
         CartProduct cartProduct = cartProductRepository.findById(cartProductID)
                 .orElseThrow(() -> new ApiRequestException("Product not found", HttpStatus.NOT_FOUND));
         if(quantity>cartProduct.getProduct().getStock()){
-            return "Quantity bigger than stock";
+            throw new ApiRequestException("Invalid quantity", HttpStatus.NOT_ACCEPTABLE);
         }
         cartProduct.setQuantity(quantity);
         cartProductRepository.save(cartProduct);

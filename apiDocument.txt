@@ -126,6 +126,7 @@ POST: http://localhost:8080/api/v1/carts/add
 Request {
     "productID":"ID sản phẩm",
     "quantity":"Số lượng"
+    "userID": "userID"
 }
 
 Thêm sửa số lượng trong cart ->
@@ -133,11 +134,15 @@ PUT: http://localhost:8080/api/v1/carts/edit
 Request {
     "productID":"ID sản phẩm",
     "quantity":"Số lượng"
+    "userID": "userID"
 }
 
 Xóa item khỏi cart ->
-ID: cartProductID
-DELETE: http://localhost:8080/api/v1/carts/delete/{id}
+DELETE: http://localhost:8080/api/v1/carts/delete
+Request {
+    "cartProductID":"cartProductID",
+    "userID": "userID"
+}
 
 #Order --------------------------------------------------------------------------
 Lấy danh sách Order theo UserID ->

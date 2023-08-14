@@ -48,8 +48,10 @@ public class CartController {
         return ResponseEntity.ok(data);
     }
 
-    @DeleteMapping(DELETE+"/{id}")
-    public ResponseEntity<String> deleteItem2Cart(@PathVariable Long id){
-        return ResponseEntity.ok(cartService.removeItem2Cart(id));
+    @DeleteMapping(DELETE)
+    public ResponseEntity<Map<String, Object>> deleteItem2Cart(@RequestParam Long cartProductID,
+                                                  @RequestParam UUID userID){
+        String message = cartService.removeItem2Cart(cartProductID);
+        return getMapResponseEntity(message, userID);
     }
 }

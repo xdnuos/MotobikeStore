@@ -18,7 +18,6 @@ public interface UsersRepository extends JpaRepository<Users, UUID> {
     Optional<String> getEmailByPasswordResetCode(String code);
     Optional<Users> findByPasswordResetCode(String code);
     Boolean existsByEmail(String email);
-
     @Modifying
     @Query("UPDATE Users u SET u.active = :status WHERE u.userID = :id")
     void changeStatusByID(@Param("id") UUID id, @Param("status") Boolean status);

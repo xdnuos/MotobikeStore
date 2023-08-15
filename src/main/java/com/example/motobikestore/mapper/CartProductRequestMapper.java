@@ -6,7 +6,7 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CartProductRequestMapper {
-    @Mapping(source = "email", target = "users.email")
+    @Mapping(source = "userID", target = "users.userID")
     @Mapping(source = "productID", target = "product.productID")
     CartProduct toEntity(CartProductRequest cartProductRequest);
 

@@ -7,6 +7,7 @@ public class ErrorMessage {
     public static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match.";
     public static final String EMAIL_IN_USE = "Email is already in use.";
     public static final String PHONE_IN_USE = "Phone number is already in use.";
+    public static final String CCCD_IN_USE = "CCCD is already in use.";
     public static final String INVALID_PASSWORD_CODE = "Password reset code is invalid!";
     public static final String EMPTY_PASSWORD_CONFIRMATION = "Password confirmation cannot be empty.";
     public static final String EMPTY_PASSWORD_CODE = "Reset Code cannot be empty.";
@@ -18,6 +19,7 @@ public class ErrorMessage {
     public static final String PRODUCT_NOT_FOUND = "Product not found.";
     public static final String PERFUME_NOT_FOUND = "Perfume not found.";
     public static final String USER_NOT_FOUND = "User not found.";
+    public static final String ADDRESS_NOT_FOUND = "Address not found.";
     public static final String EMPTY_CONTENT = "Content cannot be blank";
     public static final String EMPTY_FIRST_NAME = "First name cannot be empty";
     public static final String EMPTY_LAST_NAME = "Last name cannot be empty";

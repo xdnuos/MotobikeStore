@@ -29,6 +29,10 @@ public class OrderController {
     public Iterable<OrdersAdminView> getOrderAdmin(){
         return orderService.getOrderAdmin();
     }
+    @GetMapping(GET+"/orderDetail/{id}")
+    public OrdersAdminView getOrderAdmin(@PathVariable Long id){
+        return orderService.getOrderDetail(id);
+    }
     @GetMapping(GET_BY_ID)
     public Iterable<OrdersAdminView> getOrderByCustomer(@PathVariable(name = "id") UUID customerID){
         return orderService.getOrderCustomer(customerID);

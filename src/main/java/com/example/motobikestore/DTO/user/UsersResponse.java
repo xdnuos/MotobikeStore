@@ -4,6 +4,7 @@ import com.example.motobikestore.entity.Images;
 import com.example.motobikestore.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,7 @@ import java.util.UUID;
 /**
  * DTO for {@link com.example.motobikestore.entity.Users}
  */
-@Getter
-@Setter
+@Data
 public class UsersResponse implements Serializable {
     private UUID userID;
     @Email
@@ -32,6 +32,14 @@ public class UsersResponse implements Serializable {
     private LocalDateTime createDate;
     private String avatarUrl;
     public String getFullName() {
-        return firstName+" "+lastName;
+        if (firstName == null && lastName == null) {
+            return "";
+        } else if (firstName == null) {
+            return lastName;
+        } else if (lastName == null) {
+            return firstName;
+        } else {
+            return firstName + " " + lastName;
+        }
     }
 }

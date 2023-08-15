@@ -133,6 +133,9 @@ public class OrderService {
     public Iterable<OrdersAdminView> getOrderAdmin(){
         return orderAdminViewRepository.findAll();
     }
+    public OrdersAdminView getOrderDetail(Long orderID){
+        return orderAdminViewRepository.findByOrderID(orderID);
+    }
     public Iterable<OrdersAdminView> getOrderCustomer(UUID userID){
         return orderCustomerViewRepository.findAllByCustomer_Users_UserID(userID);
     }

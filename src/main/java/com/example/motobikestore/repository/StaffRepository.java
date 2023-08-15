@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface StaffRepository extends JpaRepository<Staff,Long> {
+public interface StaffRepository extends JpaRepository<Staff,UUID> {
     Optional<Staff> findByUsers_UserID(UUID uuid);
+    Boolean existsByPhone(String phone);
+    Boolean existsByCccd(String cccd);
 }

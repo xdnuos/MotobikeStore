@@ -9,6 +9,7 @@ import com.example.motobikestore.enums.Role;
 import com.example.motobikestore.exception.ApiRequestException;
 import com.example.motobikestore.mapper.StaffRequestMapper;
 import com.example.motobikestore.mapper.StaffResponseMapper;
+import com.example.motobikestore.mapper.UsersRequestMapper;
 import com.example.motobikestore.repository.StaffRepository;
 import com.example.motobikestore.repository.UsersRepository;
 import com.example.motobikestore.service.email.CustomMailSender;
@@ -36,6 +37,7 @@ public class StaffService {
     private final StaffRequestMapper staffRequestMapper;
     private final UsersRepository usersRepository;
     private final StaffResponseMapper staffResponseMapper;
+    private final UsersRequestMapper usersRequestMapper;
 
     @Transactional
     public String addStaff(StaffRequest staffRequest){
@@ -48,26 +50,60 @@ public class StaffService {
         staffRoles.add(staffRequest.getRole());
         isManager(mangager.getUsers().getRoles(),staffRoles);
 
-        Users users = new Users();
-        users.setEmail(staffRequest.getEmail());
-        users.setFirstName(staffRequest.getFirstName());
-        users.setLastName(staffRequest.getLastName());
+        Users users = usersRequestMapper.toEntity(staffRequest);
+//        users.setEmail(staffRequest.getEmail());
+//        users.setFirstName(staffRequest.getFirstName());
+//        users.setLastName(staffRequest.getLastName());
         users.setRoles(Collections.singleton(staffRequest.getRole()));
         users.setActive(false);
         users.setActivationCode(ActivationCodeGenerator.generateRandomString());
         users.setCreateDate(LocalDateTime.now());
         users.setPassword(passwordEncoder.encode("123456"));
 
-        Staff staff = new Staff();
-        staff.setBirth(staffRequest.getBirth());
-        staff.setCccd(staffRequest.getCccd());
-        staff.setSex(staffRequest.getSex());
-        staff.setPhone(staffRequest.getPhone());
+        Staff staff = staffRequestMapper.toEntity(staffRequest);
+//        staff.setBirth(staffRequest.getBirth());
+//        staff.setCccd(staffRequest.getCccd());
+//        staff.setSex(staffRequest.getSex());
+//        staff.setPhone(staffRequest.getPhone());
         staff.setUsers(users);
         staff.setManager(mangager);
         staffRepository.save(staff);
         customMailSender.sendEmail(users, "Activation code", "registration-template", "registrationUrl", "/activate/" + users.getActivationCode());
         return SUCCESS_ADD_USER;
+    }
+
+    @Transactional
+    public String editStaff(StaffRequest staffRequest){
+        Staff staff = staffRepository.findById(staffRequest.getStaffID())
+                .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
+        if(!staff.getPhone().equals(staffRequest.getPhone())){
+            if(staffRepository.existsByPhone(staffRequest.getPhone())){
+                throw  new ApiRequestException(PHONE_IN_USE, HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
+        if(!staff.getCccd().equals(staffRequest.getCccd())){
+            if(staffRepository.existsByCccd(staffRequest.getCccd())){
+                throw  new ApiRequestException(CCCD_IN_USE, HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
+        staff.setBirth(staffRequest.getBirth());
+        staff.setCccd(staffRequest.getCccd());
+        staff.setPhone(staffRequest.getPhone());
+        staff.setSex(staffRequest.getSex());
+        Users users = staff.getUsers();
+
+        if(!users.getEmail().equals(staffRequest.getEmail())){
+            if(usersRepository.existsByEmail(staffRequest.getEmail())){
+                throw  new ApiRequestException(EMAIL_IN_USE, HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
+        users.setEmail(staffRequest.getEmail());
+        users.setFirstName(staffRequest.getFirstName());
+        users.setLastName(staffRequest.getLastName());
+        users.setRoles(Collections.singleton(staffRequest.getRole()));
+        staff.setUsers(users);
+        staffRepository.save(staff);
+        return SUCCESS_UPDATE_USER;
     }
 
     private void isManager(Set<Role> manager,Set<Role> staff){
@@ -77,6 +113,11 @@ public class StaffService {
     }
     public List<StaffResponse> getListStaff(){
         return staffRepository.findAll().stream().map(staffResponseMapper::toDto).collect(Collectors.toList());
+    }
+    public StaffResponse getStaff(UUID staffID){
+        Staff staff = staffRepository.findById(staffID)
+                .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
+        return staffResponseMapper.toDto(staff);
     }
 
     @Transactional

@@ -30,6 +30,10 @@ public class StaffController {
     public List<StaffResponse> getStaffList(){
         return staffService.getListStaff();
     }
+    @GetMapping(GET_BY_ID)
+    public StaffResponse getStaffByID(@PathVariable(name = "id") UUID staffID){
+        return staffService.getStaff(staffID);
+    }
     @PostMapping(ADD)
     public ResponseEntity<String> addStaff(@ModelAttribute StaffRequest staffRequest,
                                            BindingResult bindingResult){
@@ -37,6 +41,14 @@ public class StaffController {
             throw new InputFieldException(bindingResult);
         }
         return ResponseEntity.ok(staffService.addStaff(staffRequest));
+    }
+    @PutMapping(EDIT)
+    public ResponseEntity<String> editStaff(@ModelAttribute StaffRequest staffRequest,
+                                           BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        }
+        return ResponseEntity.ok(staffService.editStaff(staffRequest));
     }
 
     @PutMapping("/changeState") ResponseEntity<String> changeState(@RequestBody StaffChangeState staffChangeState){

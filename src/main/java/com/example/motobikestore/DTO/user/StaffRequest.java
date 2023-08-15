@@ -20,6 +20,7 @@ import java.util.UUID;
  */
 @Data
 public class StaffRequest extends UsersRequest {
+    private UUID staffID;
     private Sex sex;
     @Pattern(message = "Phone number must be 9 or 10 digits", regexp = "\\d{9}|\\d{10}")
     private String phone;
@@ -29,6 +30,5 @@ public class StaffRequest extends UsersRequest {
     private LocalDate birth;
     @Pattern(message = "Identity ID must be 9 or 12 digits", regexp = "\\d{9}|\\d{12}")
     private String cccd;
-    @NotNull
     private UUID managerID;
 }

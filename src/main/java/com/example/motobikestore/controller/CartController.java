@@ -55,10 +55,13 @@ public class CartController {
         String message = cartService.removeItem2Cart(cartRemoveItem.getCartProductID());
         return getMapResponseEntity(message, cartRemoveItem.getUserID());
     }
-    @AllArgsConstructor
     @Getter
-    private class CartRemoveItem {
+    private static class CartRemoveItem {
         Long cartProductID;
         UUID userID;
+        public CartRemoveItem(Long cartProductID, UUID userID) {
+            this.cartProductID = cartProductID;
+            this.userID = userID;
+        }
     }
 }

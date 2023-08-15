@@ -9,7 +9,7 @@ public interface CustomerResponseMapper {
 
     @Mapping(source = "avatarUrl", target = "users.avatar.imagePath")
     Customer toEntity(CustomerResponse customerResponse);
-
+    @InheritInverseConfiguration(name = "toEntity")
     CustomerResponse toDto(Customer customer);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * DTO for {@link com.example.motobikestore.entity.Users}
@@ -26,4 +27,6 @@ public class UsersRequest implements Serializable {
     private String lastName;
     private Role role;
     private MultipartFile img;
+    private UUID userID;
+
 }

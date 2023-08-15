@@ -265,3 +265,33 @@ Response {
     "address": [],
     "message": "Succesfully delete address"
 }
+
+
+#Customer --------------------------------------------------------------------------
+Lấy info
+GET http://localhost:8080/api/v1/customers/get/{userID}
+Response {
+             "userID": userID,
+             "email": email,
+             "firstName": "Pham",
+             "lastName": "Hảo",
+             "fullName": "Pham Hảo",
+             "avatarUrl": "https://haycafe.vn/wp-content/uploads/2021/11/Anh-avatar-dep-chat-lam-hinh-dai-dien-600x600.jpg",
+             "phone": "0865307743",
+             "sex": [Male,Female,Other]
+             "birth": dd/MM/yyyy,
+         }
+
+Sửa thông tin
+PUT http://localhost:8080/api/v1/customers/edit
+Request {
+             "userID": userID,
+             "email": email,
+             "firstName": "Pham",
+             "lastName": "Hảo",
+             "fullName": "Pham Hảo",
+             "img": Multipartfile,
+             "phone": "0865307743",
+             "sex": [Male,Female,Other]
+             "birth": dd/MM/yyyy,
+         }

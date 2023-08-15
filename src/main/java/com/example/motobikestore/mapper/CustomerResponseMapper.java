@@ -11,7 +11,6 @@ public interface CustomerResponseMapper {
     Customer toEntity(CustomerResponse customerResponse);
     @InheritInverseConfiguration(name = "toEntity")
     CustomerResponse toDto(Customer customer);
-
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Customer partialUpdate(CustomerResponse customerResponse, @MappingTarget Customer customer);
 }

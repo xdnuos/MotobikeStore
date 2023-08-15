@@ -29,7 +29,7 @@ public class Customer implements Serializable {
 //    @NotNull(message="Gender cannot be null")
     private Sex sex;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate birth;
 
     //bi-directional many-to-one association to Order

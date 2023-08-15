@@ -31,7 +31,7 @@ public class Staff implements Serializable {
     @Column(nullable = false, length = 15,unique=true)
     private String phone;
     @NotNull(message="Birth date cannot be null")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Past(message="Birth date must be in the past")
     private LocalDate birth;
     @Pattern(regexp="\\d{9}|\\d{12}", message="Identity ID must be 9 or 12 digits")

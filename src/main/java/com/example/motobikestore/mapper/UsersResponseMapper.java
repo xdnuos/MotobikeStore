@@ -9,6 +9,7 @@ public interface UsersResponseMapper {
     @Mapping(source = "avatarUrl", target = "avatar.imagePath")
     Users toEntity(UsersResponse usersResponse);
 
+    @InheritInverseConfiguration(name = "toEntity")
     UsersResponse toDto(Users users);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

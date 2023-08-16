@@ -2,6 +2,8 @@ package com.example.motobikestore.entity;
 
 import com.example.motobikestore.enums.OrderStatus;
 import com.example.motobikestore.enums.Payment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,7 +18,7 @@ import java.util.List;
 @Data
 public class Orders implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long orderID;
     @Column
     private String fullname;
@@ -44,6 +46,7 @@ public class Orders implements Serializable {
     private Customer customer;
 
     @OneToMany(mappedBy="orders",  cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @Transient

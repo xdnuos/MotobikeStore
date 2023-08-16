@@ -1,5 +1,6 @@
 package com.example.motobikestore.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,6 +30,7 @@ public class OrderItem implements Serializable {
     private int quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name="orderID")
     private Orders orders;
 }

@@ -1,6 +1,6 @@
 package com.example.motobikestore.mapper;
 
-import com.example.motobikestore.DTO.user.CustomerInfo;
+import com.example.motobikestore.DTO.user.CustomerBasicInfo;
 import com.example.motobikestore.entity.Customer;
 import org.mapstruct.*;
 
@@ -8,12 +8,12 @@ import org.mapstruct.*;
 public interface CustomerInfoMapper {
     @Mapping(source = "lastName", target = "users.lastName")
     @Mapping(source = "firstName", target = "users.firstName")
-    Customer toEntity(CustomerInfo customerInfo);
+    Customer toEntity(CustomerBasicInfo customerBasicInfo);
 
     @InheritInverseConfiguration(name = "toEntity")
-    CustomerInfo toDto(Customer customer);
+    CustomerBasicInfo toDto(Customer customer);
 
     @InheritConfiguration(name = "toEntity")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Customer partialUpdate(CustomerInfo customerInfo, @MappingTarget Customer customer);
+    Customer partialUpdate(CustomerBasicInfo customerBasicInfo, @MappingTarget Customer customer);
 }

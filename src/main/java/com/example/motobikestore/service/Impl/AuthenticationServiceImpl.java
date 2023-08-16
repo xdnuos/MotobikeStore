@@ -15,6 +15,7 @@ import com.example.motobikestore.mapper.CustomerRequestMapper;
 import com.example.motobikestore.mapper.UsersRequestMapper;
 import com.example.motobikestore.repository.UsersRepository;
 import com.example.motobikestore.security.JwtProvider;
+import com.example.motobikestore.security.UserPrincipal;
 import com.example.motobikestore.service.ActivationCodeGenerator;
 import com.example.motobikestore.service.AuthenticationService;
 import com.example.motobikestore.service.email.CustomMailSender;
@@ -24,7 +25,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -62,9 +65,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public Map<String, Object> login(String email, String password) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            Users users = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+//            Users users = userRepository.findByEmail(email)
+//                    .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
+            UserPrincipal userPrincipal = (UserPrincipal) authenticate.getPrincipal();
+            Users users = new Users();
+            users.setUserID(userPrincipal.getUserID());
+            users.setEmail(userPrincipal.getEmail());
+            users.setAvatar(userPrincipal.getAvatar());
+            users.setFirstName(userPrincipal.getFirstName());
+            users.setLastName(userPrincipal.getLastName());
+            Set<Role> roles = new HashSet<>();
+            Collection<? extends GrantedAuthority> authorities = userPrincipal.getAuthorities();
+            for (GrantedAuthority authority : authorities) {
+                String role = authority.getAuthority();
+                roles.add(Role.valueOf(role.toUpperCase()));
+            }
+            users.setRoles(roles);
             String accountRole = users.getRoles().iterator().next().name();
             String token = jwtProvider.createToken(email, accountRole);
 //            System.out.println(token);
@@ -150,6 +167,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String sendPasswordResetCode(String email) {
         Users users = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
+        if (!users.isActive() & users.getActivationCode()==null){
+            throw new ApiRequestException("Your account is locked", HttpStatus.FORBIDDEN);
+        }
         users.setPasswordResetCode(ActivationCodeGenerator.generateRandomString());
         users.setResetPassCodeCreate(LocalDateTime.now());
         userRepository.save(users);

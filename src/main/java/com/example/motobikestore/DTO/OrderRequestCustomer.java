@@ -2,22 +2,17 @@ package com.example.motobikestore.DTO;
 
 import com.example.motobikestore.enums.Payment;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class OrderRequestCustomer {
     @NotNull
     List<Long> cartProductIDs;
     UUID userID;
     Long addressID;
     Payment payment;
+    String note;
 }

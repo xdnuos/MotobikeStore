@@ -88,7 +88,7 @@ public class CustomerService {
         AtomicReference<Integer> totalProductBuy = new AtomicReference<>(0);
         List<Orders> orders = customer.getOrders();
         orders.forEach(order ->{
-            if (order.getOrderStatus().equals(OrderStatus.SUCCESS)){
+            if (!order.getOrderStatus().equals(OrderStatus.FAILED)){
                 successOrder.getAndSet(successOrder.get() + 1);
                 totalPurchased.updateAndGet(current -> current.add(order.getTotal()));
                 order.getOrderItems().forEach(orderItem -> {

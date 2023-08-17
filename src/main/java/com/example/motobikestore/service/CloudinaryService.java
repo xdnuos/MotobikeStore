@@ -38,4 +38,12 @@ public class CloudinaryService {
         int endIndex = imageUrl.lastIndexOf(".");
         return imageUrl.substring(startIndex, endIndex);
     }
+
+    public String extractFileNameFromUrl(String url) {
+        String[] parts = url.split("/");
+        if (parts.length > 0) {
+            return parts[parts.length - 1];
+        }
+        return null;
+    }
 }

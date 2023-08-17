@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,9 +17,7 @@ import java.util.List;
 /**
  * DTO for {@link com.example.motobikestore.entity.Product}
  */
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class ProductRequest implements Serializable {
     private final Long productID;
     @Size(message = "Độ dài SKU từ 2-8 kí tự", min = 2, max = 8)

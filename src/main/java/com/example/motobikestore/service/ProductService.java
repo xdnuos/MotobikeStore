@@ -21,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -107,47 +104,104 @@ public class ProductService {
         product.setFullDescription(productRequest.getFullDescription());
         product.setArrival(productRequest.getArrival());
 
-        Set<Images> images = product.getImagesList();
-        images.forEach(image -> {
-            image.setProduct(null);
-            cloudinaryService.deleteImage(image.getImagePath());
-        });
-        imagesRepository.deleteAll(images);
-        if(productRequest.getImageFiles() != null) {
-            Set<Images> imagesList = new HashSet<>();
+        Set<Images> currentImages = product.getImagesList();
+        Set<Images> imagesToDelete = new HashSet<>();
+        Set<Images> imagesToAdd = new HashSet<>();
+
+        for (Images currentImage : currentImages) {
+            boolean isImageToRemove = true;
             for (MultipartFile file : productRequest.getImageFiles()) {
+                String originalFileName = file.getOriginalFilename();
+                String currentFileName = cloudinaryService.extractFileNameFromUrl(currentImage.getImagePath());
+                if (currentFileName.equals(originalFileName)) {
+                    isImageToRemove = false;
+                    break;
+                }
+            }
+            if (isImageToRemove) {
+                imagesToDelete.add(currentImage);
+            }
+        }
+        for (MultipartFile file : productRequest.getImageFiles()) {
+            boolean isImageToAdd = true;
+            for (Images currentImage : currentImages) {
+                String originalFileName = file.getOriginalFilename();
+                String currentFileName = cloudinaryService.extractFileNameFromUrl(currentImage.getImagePath());
+
+                if (currentFileName.equals(originalFileName)) {
+                    isImageToAdd = false;
+                    break;
+                }
+            }
+            if (isImageToAdd) {
                 Images image = new Images();
                 image.setImagePath(cloudinaryService.uploadImage(file));
                 image.setProduct(product);
-                imagesList.add(image);
+                imagesToAdd.add(image);
             }
-//            product.setImagesList(imagesList);
-            imagesRepository.saveAll(imagesList);
         }
-        Set<Category> categorySet = new HashSet<>();
-        if (!productRequest.getCategoryIDs().isEmpty()){
-            List<Category> categories = categoryRepository.findAllById(productRequest.getCategoryIDs());
-            categorySet.addAll(categories);
-            product.setCategoryList(categorySet);
-        }else {
-            product.setCategoryList(null);
+        if(imagesToDelete.size()>0){
+            System.out.print("Delete Image");
+            System.out.println(imagesToDelete);
+            imagesToDelete.forEach(images -> {
+                images.setProduct(null);
+            });
+            currentImages.remove(imagesToDelete);
         }
-        Set<Tag> tagSet = new HashSet<>();
-        if (productRequest.getTagIDs() != null&!productRequest.getTagIDs().isEmpty()){
-            List<Tag> tags = tagRepository.findAllById(productRequest.getTagIDs());
-            tagSet.addAll(tags);
-            product.setTagList(tagSet);
-        }else {
-            product.setTagList(null);
+        if(imagesToAdd.size()>0){
+            System.out.print("Add Image");
+            System.out.println(imagesToDelete);
+            imagesRepository.saveAll(imagesToAdd);
+            currentImages.addAll(imagesToAdd);
         }
-        if(productRequest.getManufacturerID() != null){
-            Manufacturer manufacturer = manufacturerRepository.findById(productRequest.getManufacturerID()).get();
-            product.setManufacturer(manufacturer);
-        }else {
-            product.setManufacturer(null);
+        product.setImagesList(currentImages);
+// Kiểm tra xem có sự thay đổi trong categoryIDs hay không
+        List<Integer> productCategoryIDs = product.getCategoryList().stream()
+                .map(Category::getCategoryID)
+                .collect(Collectors.toList());
+
+        List<Integer> newCategoryIDs = productRequest.getCategoryIDs().stream()
+                .filter(categoryID -> !productCategoryIDs.contains(categoryID))
+                .collect(Collectors.toList());
+
+        if (!newCategoryIDs.isEmpty() || !productRequest.getCategoryIDs().equals(productCategoryIDs)) {
+            System.out.println("Có thay đổi category");
+            List<Category> newCategories = categoryRepository.findAllById(productRequest.getCategoryIDs());
+            product.setCategoryList(new HashSet<>(newCategories));
+        }
+
+// Kiểm tra xem có sự thay đổi trong tagIDs hay không
+        List<Integer> productTagIDs = product.getTagList().stream()
+                .map(Tag::getTagID)
+                .collect(Collectors.toList());
+
+        List<Integer> newTagIDs = productRequest.getTagIDs().stream()
+                .filter(tagID -> !productTagIDs.contains(tagID))
+                .collect(Collectors.toList());
+
+        if (!newTagIDs.isEmpty() || !productRequest.getTagIDs().equals(productTagIDs)) {
+            System.out.println("Có thay đổi tag");
+            List<Tag> newTags = tagRepository.findAllById(productRequest.getTagIDs());
+            product.setTagList(new HashSet<>(newTags));
+        }
+
+
+// Kiểm tra xem có sự thay đổi trong manufacturerID hay không
+        if (!Objects.equals(productRequest.getManufacturerID(),
+                product.getManufacturer() != null ? product.getManufacturer().getManufacturerID() : null)) {
+            System.out.println("Có thay đổi manufacturer");
+            if (productRequest.getManufacturerID() != null){
+                Manufacturer manufacturer = manufacturerRepository.findById(productRequest.getManufacturerID()).orElse(null);
+                product.setManufacturer(manufacturer);
+            } else {
+                product.setManufacturer(null);
+            }
         }
 
         productRepository.save(product);
+        if(imagesToDelete.size()>0) {
+            imagesRepository.deleteAll(imagesToDelete);
+        }
         return SUCCESS_UPDATE_PRODUCT;
     }
     public Page<ProductView> findAllToPageWithFilter(Pageable pageable, ProductFilter filters){

@@ -16,7 +16,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.motobikestore.constants.PathConstants.*;
 
@@ -66,26 +68,36 @@ public class ProductController {
     }
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ADMIN')")
     @PostMapping(ADD)
-    public ResponseEntity<String> addProduct(@ModelAttribute ProductRequest productRequest,
+    public ResponseEntity<Map<String,Object>> addProduct(@ModelAttribute ProductRequest productRequest,
                                              BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        return ResponseEntity.ok(productService.addProduct(productRequest));
+        String message = productService.addProduct(productRequest);
+        return getMap(message);
     }
 
     @PutMapping("/changeState/{id}")
-    public ResponseEntity<String> changeState(@PathVariable Long id){
-        return ResponseEntity.ok(productService.changeProductState(id));
+    public ResponseEntity<Map<String,Object>> changeState(@PathVariable Long id){
+        String message = productService.changeProductState(id);
+        return getMap(message);
     }
 
+    private ResponseEntity<Map<String,Object>> getMap(String message){
+        List<ProductView> productViews = getProductListForAdmin();
+        Map<String, Object> map = new HashMap<>();
+        map.put("message",message);
+        map.put("product",productViews);
+        return ResponseEntity.ok(map);
+    }
     @PutMapping(EDIT_BY_ID)
-    public ResponseEntity<String> editProduct(@ModelAttribute ProductRequest productRequest,@PathVariable Long id,
+    public ResponseEntity<Map<String,Object>> editProduct(@ModelAttribute ProductRequest productRequest,@PathVariable Long id,
                                              BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        return ResponseEntity.ok(productService.editProduct(productRequest,id));
+        String message = productService.editProduct(productRequest,id);
+        return getMap(message);
     }
 
     @GetMapping(SEARCH)

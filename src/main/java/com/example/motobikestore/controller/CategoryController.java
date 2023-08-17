@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static com.example.motobikestore.constants.PathConstants.*;
@@ -40,24 +42,34 @@ public class CategoryController {
 //    @PreAuthorize("hasAuthority('ADMIN')")
 //    @PostMapping(value = ADD)
     @PostMapping(value = ADD)
-    public ResponseEntity<String>
-    addCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult bindingResult){
+    public ResponseEntity<Map<String,Object>> addCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        return ResponseEntity.ok(categoryService.addCategory(categoryDTO));
+        String message = categoryService.addCategory(categoryDTO);
+        return map(message);
     }
-
-    @PutMapping(value = EDIT_BY_ID)
-    public ResponseEntity<String> editCategory(@PathVariable int id,@Valid @RequestBody CategoryDTO categoryDTO, BindingResult bindingResult){
+    @PutMapping(value = EDIT)
+    public ResponseEntity<Map<String,Object>> editCategory(@Valid @RequestBody CategoryDTO categoryDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        Category targetCategory = categoryService.findById(id);
-        targetCategory.setName(categoryDTO.getName());
-        return ResponseEntity.ok(categoryService.updateCategory(targetCategory));
+        String message = categoryService.updateCategory(categoryDTO);
+        return map(message);
+    }
+    @DeleteMapping(DELETE_BY_ID)
+    public ResponseEntity<Map<String,Object>> deleteCategory(@PathVariable Integer id){
+        String message = categoryService.deleteCategory(id);
+        return map(message);
     }
 
+    private ResponseEntity<Map<String,Object>> map(String message){
+        Map<String,Object> map = new HashMap<>();
+        map.put("message",message);
+        Set<CategoryDTO> categoryDTOS = getAllCategories();
+        map.put("categories",categoryDTOS);
+        return ResponseEntity.ok(map);
+    }
     @PutMapping(value = UPDATE_STATE_BY_ID)
     public ResponseEntity<String> updateState(@PathVariable int id){
         return ResponseEntity.ok(categoryService.changeStateCategory(id));

@@ -135,6 +135,9 @@ public class OrderService {
     public List<OrdersAdminView> getOrderByAdmin(UUID staffID){
         return orderAdminViewRepository.findAllByStaffStaffID(staffID);
     }
+    public List<OrdersAdminView> getOrderByUserID(UUID userID){
+        return orderAdminViewRepository.findAllByStaff_Users_UserID(userID);
+    }
     public Iterable<OrdersAdminView> getOrderAdmin(){
         return orderAdminViewRepository.findAll();
     }

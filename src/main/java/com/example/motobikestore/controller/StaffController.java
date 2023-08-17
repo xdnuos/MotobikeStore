@@ -34,6 +34,10 @@ public class StaffController {
     public StaffResponse getStaffByID(@PathVariable(name = "id") UUID staffID){
         return staffService.getStaff(staffID);
     }
+    @GetMapping("/getByUser/{id}")
+    public StaffResponse getStaffByUserID(@PathVariable(name = "id") UUID userID){
+        return staffService.getStaffByUser(userID);
+    }
     @PostMapping(ADD)
     public ResponseEntity<String> addStaff(@ModelAttribute StaffRequest staffRequest,
                                            BindingResult bindingResult){

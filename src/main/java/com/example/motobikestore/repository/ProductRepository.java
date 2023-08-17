@@ -1,6 +1,9 @@
 package com.example.motobikestore.repository;
 
+import com.example.motobikestore.entity.Category;
+import com.example.motobikestore.entity.Manufacturer;
 import com.example.motobikestore.entity.Product;
+import com.example.motobikestore.entity.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,6 +27,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     void changeStatusByID(@Param("id") Long id,@Param("status") Boolean status);
     @Query("select p.active from Product p where p.productID=:id")
     Boolean getStatusByID(@Param("id") Long id);
-
-
+    boolean existsByCategoryListContaining(Category category);
+    boolean existsByTagListContaining(Tag tag);
+    boolean existsByManufacturer(Manufacturer manufacturer);
 }

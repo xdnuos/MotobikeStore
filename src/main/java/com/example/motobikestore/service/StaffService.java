@@ -3,6 +3,7 @@ package com.example.motobikestore.service;
 import com.example.motobikestore.DTO.StaffChangeState;
 import com.example.motobikestore.DTO.user.StaffRequest;
 import com.example.motobikestore.DTO.user.StaffResponse;
+import com.example.motobikestore.entity.Images;
 import com.example.motobikestore.entity.Staff;
 import com.example.motobikestore.entity.Users;
 import com.example.motobikestore.enums.Role;
@@ -16,6 +17,7 @@ import com.example.motobikestore.service.email.CustomMailSender;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +40,8 @@ public class StaffService {
     private final UsersRepository usersRepository;
     private final StaffResponseMapper staffResponseMapper;
     private final UsersRequestMapper usersRequestMapper;
-
+    @Autowired
+    private CloudinaryService cloudinaryService;
     @Transactional
     public String addStaff(StaffRequest staffRequest){
         Staff mangager = staffRepository.findByUsers_UserID(staffRequest.getManagerID())
@@ -86,6 +89,23 @@ public class StaffService {
                 throw  new ApiRequestException(CCCD_IN_USE, HttpStatus.NOT_ACCEPTABLE);
             }
         }
+
+        if (staff.getUsers().getAvatar()!=null & staffRequest.getImg()!=null){
+            String originalFileName = cloudinaryService.extractFileNameFromUrl(staff.getUsers().getAvatar().getImagePath());
+            if (!originalFileName.equals(staffRequest.getImg().getOriginalFilename())){
+                String imageUrl = cloudinaryService.uploadImage(staffRequest.getImg());
+                staff.getUsers().getAvatar().setImagePath(imageUrl);
+            }
+        }
+        else if (staffRequest.getImg()!=null){
+            Images images = new Images();
+            String imageUrl = cloudinaryService.uploadImage(staffRequest.getImg());
+            images.setImagePath(imageUrl);
+            staff.getUsers().setAvatar(images);
+        }
+        else {
+            staff.getUsers().setAvatar(null);
+        }
         staff.setBirth(staffRequest.getBirth());
         staff.setCccd(staffRequest.getCccd());
         staff.setPhone(staffRequest.getPhone());
@@ -120,6 +140,11 @@ public class StaffService {
         return staffResponseMapper.toDto(staff);
     }
 
+    public StaffResponse getStaffByUser(UUID userID){
+        Staff staff = staffRepository.findByUsers_UserID(userID)
+                .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
+        return staffResponseMapper.toDto(staff);
+    }
     @Transactional
     public String changeState(StaffChangeState staffChangeState){
         if(staffChangeState.getUserIDStaff().equals(staffChangeState.getUserIDManager())){

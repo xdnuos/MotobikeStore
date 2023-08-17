@@ -1,5 +1,6 @@
 package com.example.motobikestore.controller;
 
+import com.example.motobikestore.DTO.CategoryDTO;
 import com.example.motobikestore.DTO.TagDTO;
 import com.example.motobikestore.entity.Tag;
 import com.example.motobikestore.exception.InputFieldException;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static com.example.motobikestore.constants.PathConstants.*;
@@ -39,25 +42,40 @@ public class TagController {
 
 //    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = ADD)
-    public ResponseEntity<String> add(@Valid @RequestBody TagDTO tagDTO, BindingResult bindingResult){
+    public ResponseEntity<Map<String,Object>> add(@Valid @RequestBody TagDTO tagDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        return ResponseEntity.ok(tagService.addTag(tagDTO));
+        String message = tagService.addTag(tagDTO);
+        return map(message);
     }
 
-    @PutMapping(value = EDIT_BY_ID)
-    public ResponseEntity<String> edit(@PathVariable int id,@Valid @RequestBody TagDTO tagDTO, BindingResult bindingResult){
+    @PutMapping(value = EDIT)
+    public ResponseEntity<Map<String,Object>> edit(@Valid @RequestBody TagDTO tagDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        Tag targetTag = tagService.findById(id);
-        targetTag.setName(tagDTO.getName());
-        return ResponseEntity.ok(tagService.updateTag(targetTag));
+        String message = tagService.updateTag(tagDTO);
+        return map(message);
     }
 
+    @DeleteMapping(DELETE_BY_ID)
+    public ResponseEntity<Map<String,Object>> deleteTag(@PathVariable Integer id){
+        String message = tagService.deleteTag(id);
+        return map(message);
+    }
     @PutMapping(value = UPDATE_STATE_BY_ID)
     public ResponseEntity<String> updateState(@PathVariable int id){
         return ResponseEntity.ok(tagService.changeState(id));
     }
+
+    private ResponseEntity<Map<String,Object>> map(String message){
+        Map<String,Object> map = new HashMap<>();
+        map.put("message",message);
+        Set<TagDTO> tagDTOS = getAllTag();
+        map.put("tags",tagDTOS);
+        return ResponseEntity.ok(map);
+    }
+
+
 }

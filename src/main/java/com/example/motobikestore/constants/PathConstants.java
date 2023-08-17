@@ -31,6 +31,7 @@ public class PathConstants {
     public static final String ADD = "/add";
     public static final String ADD_ADMIN = "/add/admin";
     public static final String DELETE = "/delete";
+    public static final String DELETE_BY_ID = "/delete/{id}";
     public static final String EDIT = "/edit";
     public static final String EDIT_ADMIN = "/edit/admin";
     public static final String EDIT_BY_ID = "/edit/{id}";

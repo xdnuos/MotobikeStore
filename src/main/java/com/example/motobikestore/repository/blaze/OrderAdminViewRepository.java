@@ -14,4 +14,6 @@ import java.util.UUID;
 public interface OrderAdminViewRepository extends EntityViewRepository<OrdersAdminView, Long> {
     List<OrdersAdminView> findAllByStaffStaffID(UUID staffID);
     OrdersAdminView findByOrderID(Long orderID);
+
+    List<OrdersAdminView> findAllByStaff_Users_UserID(UUID userID);
 }

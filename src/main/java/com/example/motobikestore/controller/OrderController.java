@@ -27,6 +27,10 @@ public class OrderController {
     public List<OrdersAdminView> getOrderByAdmin(@PathVariable UUID staffID){
         return orderService.getOrderByAdmin(staffID);
     }
+    @GetMapping(GET_ADMIN+"/user/{userID}")
+    public List<OrdersAdminView> getOrderByUserID(@PathVariable UUID userID){
+        return orderService.getOrderByUserID(userID);
+    }
     @GetMapping(GET_ADMIN)
     public Iterable<OrdersAdminView> getOrderAdmin(){
         return orderService.getOrderAdmin();

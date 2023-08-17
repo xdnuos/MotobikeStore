@@ -1,5 +1,6 @@
 package com.example.motobikestore.controller;
 
+import com.example.motobikestore.DTO.CategoryDTO;
 import com.example.motobikestore.DTO.ManufacturerDTO;
 import com.example.motobikestore.entity.Manufacturer;
 import com.example.motobikestore.exception.InputFieldException;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static com.example.motobikestore.constants.PathConstants.*;
@@ -39,25 +42,36 @@ public class ManufacturerController {
 
     //    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = ADD)
-    public ResponseEntity<String> add(@Valid @RequestBody ManufacturerDTO manufacturerDTO, BindingResult bindingResult){
+    public ResponseEntity<Map<String,Object>> add(@Valid @RequestBody ManufacturerDTO manufacturerDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        return ResponseEntity.ok(manufacturerService.addManufacturer(manufacturerDTO));
+        String message = manufacturerService.addManufacturer(manufacturerDTO);
+        return map(message);
     }
 
-    @PutMapping(value = EDIT_BY_ID)
-    public ResponseEntity<String> edit(@PathVariable int id,@Valid @RequestBody ManufacturerDTO manufacturerDTO, BindingResult bindingResult){
+    @PutMapping(value = EDIT)
+    public ResponseEntity<Map<String,Object>> edit(@Valid @RequestBody ManufacturerDTO manufacturerDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        Manufacturer targetManufactor = manufacturerService.findById(id);
-        targetManufactor.setName(manufacturerDTO.getName());
-        return ResponseEntity.ok(manufacturerService.updateManufacture(targetManufactor));
+        String message = manufacturerService.updateManufacture(manufacturerDTO);
+        return map(message);
     }
-
+    @DeleteMapping(DELETE_BY_ID)
+    public ResponseEntity<Map<String,Object>> deleteCategory(@PathVariable Integer id){
+        String message = manufacturerService.deleteManufacturere(id);
+        return map(message);
+    }
     @PutMapping(value = UPDATE_STATE_BY_ID)
     public ResponseEntity<String> updateState(@PathVariable int id){
         return ResponseEntity.ok(manufacturerService.changeState(id));
+    }
+    private ResponseEntity<Map<String,Object>> map(String message){
+        Map<String,Object> map = new HashMap<>();
+        map.put("message",message);
+        Set<ManufacturerDTO> manufacturerDTOS = getAllManufacturer();
+        map.put("manufacturer",manufacturerDTOS);
+        return ResponseEntity.ok(map);
     }
 }

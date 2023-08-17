@@ -1,6 +1,7 @@
 package com.example.motobikestore.service.email;
 
 import com.example.motobikestore.entity.Users;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -33,7 +34,7 @@ public class CustomMailSender {
         String htmlBody = thymeleafTemplateEngine.process(template, thymeleafContext);
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setFrom(username);
+        helper.setFrom(new InternetAddress(username, "Motobike Store"));
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(htmlBody, true);
